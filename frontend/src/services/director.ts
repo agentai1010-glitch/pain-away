@@ -8,8 +8,8 @@ export function useDirectorLogin() {
     mutationFn: async (data: LoginRequest) => {
       // For now, if the backend doesn't have a specific director login endpoint yet,
       // we can try /api/v1/director/login. If it's the same system, it might just be the same login endpoint.
-      // Using the reception login endpoint for now since a dedicated director auth endpoint does not exist on the backend yet.
-      return apiClient.post<TokenResponse>('/api/v1/reception/login', data);
+      // Call the dedicated director auth endpoint
+      return apiClient.post<TokenResponse>('/api/v1/director/login', data);
     },
   });
 }
