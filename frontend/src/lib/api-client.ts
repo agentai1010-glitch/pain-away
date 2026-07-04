@@ -36,7 +36,7 @@ async function request<T>(
     ...options.headers,
   };
 
-  const token = localStorage.getItem("reception_token");
+  const token = localStorage.getItem("reception_token") || localStorage.getItem("director_token");
   if (token) {
     (headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
   }
