@@ -62,7 +62,11 @@ export function ReceptionLoginPage() {
             </div>
           </div>
 
-          {error && <div className="text-sm text-red-500 font-medium">Invalid credentials.</div>}
+          {error && (
+            <div className="text-sm text-red-500 font-medium">
+              {error instanceof Error ? error.message : "Invalid credentials or network error."}
+            </div>
+          )}
 
           <button 
             disabled={isPending} 
