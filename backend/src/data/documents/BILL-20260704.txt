@@ -1,0 +1,14 @@
+=================================
+FINAL BILL
+=================================
+Bill Number: BILL-20260704
+Date: 2026-07-04
+Time: 18:23:10
+---------------------------------
+Patient Name: Rahul  Patil
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 240
+Balance Collected: Rs. 960
+=================================

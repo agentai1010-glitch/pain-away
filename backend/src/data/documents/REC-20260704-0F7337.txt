@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-0F7337
+Date: 2026-07-04
+Time: 18:23:10
+---------------------------------
+Patient Name: Rakesh  Sharma 
+Service: Complete Back & Neck Recovery Package
+---------------------------------
+Total Amount: Rs. 5000
+Advance Paid: Rs. 1000
+Remaining Balance: Rs. 4000
+=================================

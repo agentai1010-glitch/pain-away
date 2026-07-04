@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-CC4E5B
+Date: 2026-07-04
+Time: 18:23:10
+---------------------------------
+Patient Name: Amit Sharma
+Service: Back Pain Therapy
+---------------------------------
+Total Amount: Rs. 1000
+Advance Paid: Rs. 200
+Remaining Balance: Rs. 800
+=================================

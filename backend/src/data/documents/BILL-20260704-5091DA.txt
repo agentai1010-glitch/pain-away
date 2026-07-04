@@ -1,0 +1,14 @@
+=================================
+FINAL BILL
+=================================
+Bill Number: BILL-20260704-5091DA
+Date: 2026-07-04
+Time: 20:50:29
+---------------------------------
+Patient Name: John Doe
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 240
+Balance Collected: Rs. 960
+=================================

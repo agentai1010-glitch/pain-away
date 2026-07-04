@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-43D5E0
+Date: 2026-07-04
+Time: 18:23:10
+---------------------------------
+Patient Name: Rajesh  sharma 
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 240
+Remaining Balance: Rs. 960
+=================================

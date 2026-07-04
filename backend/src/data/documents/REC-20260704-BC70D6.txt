@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-BC70D6
+Date: 2026-07-04
+Time: 19:48:57
+---------------------------------
+Patient Name: Rebook Test
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 400
+Remaining Balance: Rs. 800
+=================================

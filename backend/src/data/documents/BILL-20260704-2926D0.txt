@@ -1,0 +1,14 @@
+=================================
+FINAL BILL
+=================================
+Bill Number: BILL-20260704-2926D0
+Date: 2026-07-04
+Time: 20:47:41
+---------------------------------
+Patient Name: Pravin Tarde
+Service: Complete Back & Neck Recovery Package
+---------------------------------
+Total Amount: Rs. 5000
+Advance Paid: Rs. 1000
+Balance Collected: Rs. 4000
+=================================

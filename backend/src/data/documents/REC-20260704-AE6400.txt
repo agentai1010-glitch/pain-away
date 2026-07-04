@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-AE6400
+Date: 2026-07-04
+Time: 21:11:59
+---------------------------------
+Patient Name: Virat  kohli
+Service: Intense Recovery Plan
+---------------------------------
+Total Amount: Rs. 9500
+Advance Paid: Rs. 1900
+Remaining Balance: Rs. 7600
+=================================

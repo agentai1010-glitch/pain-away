@@ -1,0 +1,70 @@
+# ============================================================
+# Pain Away — Clinic Operating System
+# ============================================================
+
+# -------------------- Python --------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+*.whl
+
+# -------------------- Virtual Environments --------------------
+.venv/
+venv/
+env/
+
+# -------------------- uv --------------------
+.uv/
+
+# -------------------- Node --------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# -------------------- Build Output --------------------
+backend/dist/
+frontend/dist/
+frontend/build/
+
+# -------------------- Environment --------------------
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# -------------------- IDE --------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# -------------------- OS --------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -------------------- Docker --------------------
+docker-compose.override.yml
+
+# -------------------- Testing --------------------
+.coverage
+htmlcov/
+.pytest_cache/
+coverage/
+
+# -------------------- Misc --------------------
+*.log
+*.bak
+*.tmp

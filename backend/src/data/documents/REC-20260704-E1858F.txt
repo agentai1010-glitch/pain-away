@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-E1858F
+Date: 2026-07-04
+Time: 18:14:43
+---------------------------------
+Patient Name: Rahul Sawant
+Service: Complete Back & Neck Recovery Package
+---------------------------------
+Total Amount: Rs. 5000
+Advance Paid: Rs. 1000
+Remaining Balance: Rs. 4000
+=================================

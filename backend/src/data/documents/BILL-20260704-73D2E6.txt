@@ -1,0 +1,14 @@
+=================================
+FINAL BILL
+=================================
+Bill Number: BILL-20260704-73D2E6
+Date: 2026-07-04
+Time: 20:22:10
+---------------------------------
+Patient Name: Mohan Bhargav
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 240
+Balance Collected: Rs. 960
+=================================

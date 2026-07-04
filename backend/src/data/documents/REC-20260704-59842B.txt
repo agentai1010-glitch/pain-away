@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-59842B
+Date: 2026-07-04
+Time: 19:29:16
+---------------------------------
+Patient Name: Test Cancel
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 500
+Remaining Balance: Rs. 700
+=================================

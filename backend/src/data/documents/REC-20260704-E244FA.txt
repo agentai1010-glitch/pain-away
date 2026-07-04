@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-E244FA
+Date: 2026-07-04
+Time: 19:57:37
+---------------------------------
+Patient Name: Pravin Tarde
+Service: Complete Back & Neck Recovery Package
+---------------------------------
+Total Amount: Rs. 5000
+Advance Paid: Rs. 1000
+Remaining Balance: Rs. 4000
+=================================

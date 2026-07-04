@@ -1,0 +1,14 @@
+=================================
+FINAL BILL
+=================================
+Bill Number: BILL-20260704-1E39B1
+Date: 2026-07-04
+Time: 18:39:49
+---------------------------------
+Patient Name: Pravin Tarde
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 240
+Balance Collected: Rs. 960
+=================================

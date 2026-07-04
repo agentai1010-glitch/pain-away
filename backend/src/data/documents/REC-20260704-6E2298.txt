@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260704-6E2298
+Date: 2026-07-04
+Time: 18:37:28
+---------------------------------
+Patient Name: Rahul  Patil
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 0
+Remaining Balance: Rs. 1200
+=================================
