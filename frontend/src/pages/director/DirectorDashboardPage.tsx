@@ -14,7 +14,7 @@ export function DirectorDashboardPage() {
     { title: "Service & Package Config", description: "Manage clinic offerings and pricing.", icon: Settings, color: "bg-blue-100 text-blue-600", to: "/director/services" },
     { title: "Today's Appointments", description: "View and manage today's appointment schedule.", icon: CalendarClock, color: "bg-amber-100 text-amber-600", to: "/director/queue" },
     { title: "Holiday Management", description: "Configure future clinic closure dates.", icon: CalendarX, color: "bg-red-100 text-red-600", to: "/director/holidays" },
-    { title: "Financial Reports", description: "View revenue and billing snapshots.", icon: BarChart3, color: "bg-green-100 text-green-600", to: "/director" },
+    { title: "Financial Reports", description: "View revenue and billing snapshots.", icon: BarChart3, color: "bg-green-100 text-green-600", to: "/director/dashboard" },
   ];
 
   return (

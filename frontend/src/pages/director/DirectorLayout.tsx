@@ -5,7 +5,7 @@ export function DirectorLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   const navItems = [
-    { name: "Dashboard", href: "/director", icon: LayoutDashboard },
+    { name: "Dashboard", href: "/director/dashboard", icon: LayoutDashboard },
     { name: "Today's Queue", href: "/director/queue", icon: CalendarClock },
     { name: "Business Config", href: "/director/services", icon: Settings },
     { name: "Holidays", href: "/director/holidays", icon: CalendarX },
