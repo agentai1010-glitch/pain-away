@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import RootLayout from "@/components/layout/RootLayout";
 import LandingPage from "@/pages/landing/LandingPage";
 import CatalogPage from "@/pages/catalog/CatalogPage";
@@ -15,13 +15,46 @@ import ServiceManagementPage from "@/pages/director/ServiceManagementPage";
 import HolidayManagementPage from "@/pages/director/HolidayManagementPage";
 import DirectorPatientWorkspacePage from "@/pages/director/DirectorPatientWorkspacePage";
 import DirectorQueuePage from "@/pages/director/DirectorQueuePage";
+import ClinicPortalLandingPage from "@/pages/internal/ClinicPortalLandingPage";
+import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 /**
  * Application route definitions.
- * Landing page is the public homepage.
- * Business routes are added per milestone.
  */
+const isPublicOnly = import.meta.env.VITE_DEPLOY_TARGET === "public";
+const isInternalOnly = import.meta.env.VITE_DEPLOY_TARGET === "internal";
+
 function AppRoutes() {
+  if (isInternalOnly) {
+    return (
+      <Routes>
+        <Route path="/" element={<ClinicPortalLandingPage />} />
+        
+        {/* Reception Routes */}
+        <Route path="/reception" element={<ReceptionLoginPage />} />
+        <Route path="/reception/login" element={<Navigate to="/reception" replace />} />
+        <Route path="/reception/dashboard" element={<ProtectedRoute role="reception"><ReceptionDashboardPage /></ProtectedRoute>} />
+        <Route path="/reception/new-appointment" element={<ProtectedRoute role="reception"><NewAppointmentPage /></ProtectedRoute>} />
+        <Route path="/reception/queue" element={<ProtectedRoute role="reception"><QueuePage /></ProtectedRoute>} />
+        <Route path="/reception/patient/:id" element={<ProtectedRoute role="reception"><PatientWorkspacePage /></ProtectedRoute>} />
+        <Route path="/reception/checkout/:appointmentId" element={<ProtectedRoute role="reception"><CheckoutPage /></ProtectedRoute>} />
+        
+        {/* Director Routes */}
+        <Route path="/director" element={<DirectorLoginPage />} />
+        <Route path="/director/login" element={<Navigate to="/director" replace />} />
+        <Route path="/director/dashboard" element={<ProtectedRoute role="director"><DirectorDashboardPage /></ProtectedRoute>} />
+        <Route path="/director/queue" element={<ProtectedRoute role="director"><DirectorQueuePage /></ProtectedRoute>} />
+        <Route path="/director/patient/:id" element={<ProtectedRoute role="director"><DirectorPatientWorkspacePage /></ProtectedRoute>} />
+        <Route path="/director/services" element={<ProtectedRoute role="director"><ServiceManagementPage /></ProtectedRoute>} />
+        <Route path="/director/holidays" element={<ProtectedRoute role="director"><HolidayManagementPage /></ProtectedRoute>} />
+
+        {/* Catch-all route to redirect unknowns to the internal portal landing page */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    );
+  }
+
   return (
     <Routes>
       {/* Public Landing Page */}
@@ -36,20 +69,32 @@ function AppRoutes() {
       <Route path="/rebook/:eligibilityId" element={<RootLayout />}>
         <Route index element={<RebookPage />} />
       </Route>
-      {/* Reception Routes (No root layout) */}
-      <Route path="/reception/login" element={<ReceptionLoginPage />} />
-      <Route path="/reception/dashboard" element={<ReceptionDashboardPage />} />
-      <Route path="/reception/new-appointment" element={<NewAppointmentPage />} />
-      <Route path="/reception/queue" element={<QueuePage />} />
-      <Route path="/reception/patient/:id" element={<PatientWorkspacePage />} />
-      <Route path="/reception/checkout/:appointmentId" element={<CheckoutPage />} />
-      <Route path="/reception" element={<ReceptionDashboardPage />} />
-      {/* Director Routes */}
-      <Route path="/director" element={<DirectorDashboardPage />} />
-      <Route path="/director/queue" element={<DirectorQueuePage />} />
-      <Route path="/director/patient/:id" element={<DirectorPatientWorkspacePage />} />
-      <Route path="/director/services" element={<ServiceManagementPage />} />
-      <Route path="/director/holidays" element={<HolidayManagementPage />} />
+
+      {/* Internal Routes - Excluded from public build via tree shaking */}
+      {!isPublicOnly && (
+        <>
+          {/* Reception Routes (No root layout) */}
+          <Route path="/reception" element={<ReceptionLoginPage />} />
+          <Route path="/reception/login" element={<Navigate to="/reception" replace />} />
+          <Route path="/reception/dashboard" element={<ProtectedRoute role="reception"><ReceptionDashboardPage /></ProtectedRoute>} />
+          <Route path="/reception/new-appointment" element={<ProtectedRoute role="reception"><NewAppointmentPage /></ProtectedRoute>} />
+          <Route path="/reception/queue" element={<ProtectedRoute role="reception"><QueuePage /></ProtectedRoute>} />
+          <Route path="/reception/patient/:id" element={<ProtectedRoute role="reception"><PatientWorkspacePage /></ProtectedRoute>} />
+          <Route path="/reception/checkout/:appointmentId" element={<CheckoutPage />} />
+          
+          {/* Director Routes */}
+          <Route path="/director" element={<DirectorLoginPage />} />
+          <Route path="/director/login" element={<Navigate to="/director" replace />} />
+          <Route path="/director/dashboard" element={<ProtectedRoute role="director"><DirectorDashboardPage /></ProtectedRoute>} />
+          <Route path="/director/queue" element={<ProtectedRoute role="director"><DirectorQueuePage /></ProtectedRoute>} />
+          <Route path="/director/patient/:id" element={<ProtectedRoute role="director"><DirectorPatientWorkspacePage /></ProtectedRoute>} />
+          <Route path="/director/services" element={<ProtectedRoute role="director"><ServiceManagementPage /></ProtectedRoute>} />
+          <Route path="/director/holidays" element={<ProtectedRoute role="director"><HolidayManagementPage /></ProtectedRoute>} />
+        </>
+      )}
+
+      {/* Catch-all route to redirect unknowns to the landing page */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

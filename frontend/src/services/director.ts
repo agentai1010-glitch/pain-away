@@ -1,6 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from "@/lib/api-client";
 import { CatalogItem } from '@/types/catalog';
+import { LoginRequest, TokenResponse } from '@/types/reception'; // Reusing these types since they are the same shape
+
+export function useDirectorLogin() {
+  return useMutation({
+    mutationFn: async (data: LoginRequest) => {
+      // For now, if the backend doesn't have a specific director login endpoint yet,
+      // we can try /api/v1/director/login. If it's the same system, it might just be the same login endpoint.
+      // Assuming a dedicated endpoint exists:
+      return apiClient.post<TokenResponse>('/api/v1/director/login', data);
+    },
+  });
+}
 
 export interface CatalogItemCreate {
   name: string;

@@ -190,6 +190,7 @@ export default function LandingPage() {
             <span></span>
           </button>
         </div>
+        
       </nav>
 
       {/* Mobile Nav Overlay */}
