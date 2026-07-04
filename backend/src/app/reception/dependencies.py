@@ -13,7 +13,7 @@ def get_current_reception_user(credentials: HTTPAuthorizationCredentials = Depen
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         role: str = payload.get("role")
-        if username is None or role != "reception":
+        if username is None or role not in ["reception", "director"]:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
         return username
     except jwt.PyJWTError:
