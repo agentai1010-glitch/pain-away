@@ -9,9 +9,13 @@ export default function ClinicPortalLandingPage() {
       <div className="w-full max-w-4xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#002b84] tracking-tight mb-4">
-            PAIN AWAY
-          </h1>
+          <div className="bg-[#002b84] inline-block p-6 rounded-2xl mb-6 shadow-md">
+            <img 
+              src="/images/logo-white.png" 
+              alt="Pain Away" 
+              className="h-16 md:h-20 w-auto object-contain"
+            />
+          </div>
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Clinic Portal</h2>
           <p className="text-lg text-slate-500 font-medium">Internal Operations System</p>
         </div>
