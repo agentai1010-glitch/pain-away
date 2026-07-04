@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import RootLayout from "@/components/layout/RootLayout";
+import LandingPage from "@/pages/landing/LandingPage";
 import CatalogPage from "@/pages/catalog/CatalogPage";
 import BookingFlowPage from "@/pages/orchestration/BookingFlowPage";
 import RebookPage from "@/pages/orchestration/RebookPage";
@@ -17,15 +18,23 @@ import DirectorQueuePage from "@/pages/director/DirectorQueuePage";
 
 /**
  * Application route definitions.
- * Business routes will be added per milestone.
+ * Landing page is the public homepage.
+ * Business routes are added per milestone.
  */
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<RootLayout />}>
+      {/* Public Landing Page */}
+      <Route path="/" element={<LandingPage />} />
+      {/* Patient Booking Flow */}
+      <Route path="/catalog" element={<RootLayout />}>
         <Route index element={<CatalogPage />} />
-        <Route path="book" element={<BookingFlowPage />} />
-        <Route path="rebook/:eligibilityId" element={<RebookPage />} />
+      </Route>
+      <Route path="/book" element={<RootLayout />}>
+        <Route index element={<BookingFlowPage />} />
+      </Route>
+      <Route path="/rebook/:eligibilityId" element={<RootLayout />}>
+        <Route index element={<RebookPage />} />
       </Route>
       {/* Reception Routes (No root layout) */}
       <Route path="/reception/login" element={<ReceptionLoginPage />} />

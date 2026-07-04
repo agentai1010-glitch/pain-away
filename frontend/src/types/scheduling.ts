@@ -11,7 +11,7 @@ export interface DateAvailability {
 
 export interface DateAvailabilityResponse {
   date: string;
-  slots: SlotResponse[];
+  slots: Slot[];
 }
 
 // --- Holidays ---

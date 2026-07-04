@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Settings, BarChart3, Users, CalendarX, Search, Calendar, Loader2, Phone, ArrowRight, AlertCircle, CalendarClock } from "lucide-react";
+import { Settings, BarChart3, CalendarX, Search, Calendar, Loader2, Phone, ArrowRight, AlertCircle, CalendarClock } from "lucide-react";
 import DirectorLayout from "./DirectorLayout";
 import { useSearchAppointments } from "@/services/reception";
 
