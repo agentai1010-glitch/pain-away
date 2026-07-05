@@ -18,16 +18,10 @@ class CustomerOrderService:
         order = await self.repository.get_by_id(order_id)
         if not order:
             raise CustomerOrderNotFoundException()
-        
-        # force lazy load
-        await self.session.refresh(order, ['items'])
         return order
 
     async def list_orders(self, skip: int = 0, limit: int = 100) -> List[CustomerOrderModel]:
-        orders = await self.repository.get_all(skip=skip, limit=limit)
-        for order in orders:
-            await self.session.refresh(order, ['items'])
-        return orders
+        return await self.repository.get_all(skip=skip, limit=limit)
 
     async def _get_product(self, product_id: UUID) -> ProductModel:
         stmt = select(ProductModel).where(ProductModel.id == product_id)
@@ -81,10 +75,7 @@ class CustomerOrderService:
         order.tax_total = tax_total
         order.grand_total = subtotal + tax_total
         
-        self.repository.create(order)
-        await self.session.commit()
-        await self.session.refresh(order)
-        return order
+        return await self.repository.create(order)
 
     async def update_order(self, order_id: UUID, data: CustomerOrderUpdate) -> CustomerOrderModel:
         order = await self.get_order(order_id)
@@ -132,9 +123,7 @@ class CustomerOrderService:
             order.tax_total = tax_total
             order.grand_total = subtotal + tax_total
             
-        await self.session.commit()
-        await self.session.refresh(order)
-        return order
+        return await self.repository.update(order)
 
     async def update_status(self, order_id: UUID, new_status: OrderStatusEnum) -> CustomerOrderModel:
         order = await self.get_order(order_id)
@@ -152,6 +141,4 @@ class CustomerOrderService:
                 raise InvalidOrderStatusException(f"Invalid transition from CONFIRMED to {new_status.value}")
                 
         order.status = new_status
-        await self.session.commit()
-        await self.session.refresh(order)
-        return order
+        return await self.repository.update(order)

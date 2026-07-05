@@ -1,6 +1,7 @@
 from typing import List, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 from uuid import UUID
 from .models import CustomerOrderModel, CustomerOrderItemModel
 
@@ -9,18 +10,29 @@ class CustomerOrderRepository:
         self.session = session
 
     async def get_by_id(self, order_id: UUID) -> Optional[CustomerOrderModel]:
-        stmt = select(CustomerOrderModel).where(CustomerOrderModel.id == order_id)
+        stmt = select(CustomerOrderModel).options(
+            joinedload(CustomerOrderModel.items)
+        ).where(CustomerOrderModel.id == order_id)
         result = await self.session.execute(stmt)
-        return result.scalars().first()
+        return result.unique().scalars().first()
 
     async def get_all(self, skip: int = 0, limit: int = 100) -> List[CustomerOrderModel]:
-        stmt = select(CustomerOrderModel).order_by(CustomerOrderModel.created_at.desc()).offset(skip).limit(limit)
+        stmt = select(CustomerOrderModel).options(
+            joinedload(CustomerOrderModel.items)
+        ).order_by(CustomerOrderModel.created_at.desc()).offset(skip).limit(limit)
         result = await self.session.execute(stmt)
-        return list(result.scalars().all())
+        return list(result.unique().scalars().all())
 
-    def create(self, order: CustomerOrderModel) -> CustomerOrderModel:
+    async def create(self, order: CustomerOrderModel) -> CustomerOrderModel:
         self.session.add(order)
-        return order
+        await self.session.flush()
+        res = await self.get_by_id(order.id)
+        return res or order
+
+    async def update(self, order: CustomerOrderModel) -> CustomerOrderModel:
+        await self.session.flush()
+        res = await self.get_by_id(order.id)
+        return res or order
 
     async def generate_order_number(self) -> str:
         from datetime import datetime
