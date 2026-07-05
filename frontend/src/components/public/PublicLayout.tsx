@@ -7,8 +7,19 @@ export default function PublicLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const checkAuth = () => {
+      setIsAuthenticated(!!localStorage.getItem("patient_token"));
+    };
+    checkAuth();
+    window.addEventListener("patient_auth_changed", checkAuth);
+    return () => window.removeEventListener("patient_auth_changed", checkAuth);
+  }, []);
+
+  const handleScroll = () => setScrolled(window.scrollY > 50);
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -23,7 +34,6 @@ export default function PublicLayout() {
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
     { label: "Products", href: "/products" },
-    { label: "Sign In", href: "/login" },
   ];
 
   return (
@@ -51,6 +61,25 @@ export default function PublicLayout() {
                 {link.label}
               </Link>
             ))}
+            
+            {isAuthenticated ? (
+              <Link
+                to="/profile"
+                className="nav-link flex items-center gap-2 opacity-80 hover:opacity-100"
+                title="Profile"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span className="sr-only">Profile</span>
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className={`nav-link ${location.pathname === '/login' ? 'active opacity-100 font-bold' : 'opacity-80 hover:opacity-100'}`}
+              >
+                Sign In
+              </Link>
+            )}
+
             <Link
               to="/book"
               className="nav-cta"
@@ -84,6 +113,26 @@ export default function PublicLayout() {
             {link.label}
           </Link>
         ))}
+        
+        {isAuthenticated ? (
+          <Link
+            to="/profile"
+            onClick={() => setMobileMenuOpen(false)}
+            className={location.pathname === '/profile' ? 'font-bold flex items-center gap-2 justify-center' : 'flex items-center gap-2 justify-center'}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            onClick={() => setMobileMenuOpen(false)}
+            className={location.pathname === '/login' ? 'font-bold' : ''}
+          >
+            Sign In
+          </Link>
+        )}
+
         <Link
           to="/book"
           className="nav-cta mt-4"

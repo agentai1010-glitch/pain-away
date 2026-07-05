@@ -33,6 +33,7 @@ from app.stock_movement.models import StockMovementModel # noqa: E402, F401
 from app.purchase_order.models import PurchaseOrderModel, PurchaseOrderItemModel # noqa: E402, F401
 from app.goods_receiving.models import GoodsReceiptModel, GoodsReceiptItemModel # noqa: E402, F401
 from app.customer_order.models import CustomerOrderModel, CustomerOrderItemModel # noqa: E402, F401
+from app.auth.models import User # noqa: E402, F401
 
 config = context.config
 
