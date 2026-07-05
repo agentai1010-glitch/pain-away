@@ -12,6 +12,7 @@ export function DirectorLayout({ children }: { children: React.ReactNode }) {
     { name: "Inventory", href: "/director/inventory", icon: Layers },
     { name: "Stock Movements", href: "/director/inventory/movements", icon: Activity },
     { name: "Purchase Orders", href: "/director/inventory/purchase-orders", icon: ShoppingCart },
+    { name: "Goods Receiving", href: "/director/inventory/goods-receiving", icon: Truck },
     { name: "Products", href: "/director/inventory/products", icon: Package },
     { name: "Categories", href: "/director/inventory/categories", icon: Folder },
     { name: "Brands", href: "/director/inventory/brands", icon: Tags },

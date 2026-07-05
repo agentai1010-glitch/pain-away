@@ -29,6 +29,8 @@ import InventoryListPage from "@/pages/director/inventory/InventoryListPage";
 import StockMovementListPage from "@/pages/director/inventory/StockMovementListPage";
 import PurchaseOrderListPage from "@/pages/director/inventory/PurchaseOrderListPage";
 import PurchaseOrderFormPage from "@/pages/director/inventory/PurchaseOrderFormPage";
+import GoodsReceivingListPage from "@/pages/director/inventory/GoodsReceivingListPage";
+import ReceiveGoodsFormPage from "@/pages/director/inventory/ReceiveGoodsFormPage";
 import ClinicPortalLandingPage from "@/pages/internal/ClinicPortalLandingPage";
 import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
@@ -90,6 +92,9 @@ function AppRoutes() {
         <Route path="/director/inventory/purchase-orders" element={<ProtectedRoute role="director"><PurchaseOrderListPage /></ProtectedRoute>} />
         <Route path="/director/inventory/purchase-orders/new" element={<ProtectedRoute role="director"><PurchaseOrderFormPage /></ProtectedRoute>} />
         <Route path="/director/inventory/purchase-orders/:id/edit" element={<ProtectedRoute role="director"><PurchaseOrderFormPage /></ProtectedRoute>} />
+        
+        <Route path="/director/inventory/goods-receiving" element={<ProtectedRoute role="director"><GoodsReceivingListPage /></ProtectedRoute>} />
+        <Route path="/director/inventory/goods-receiving/new/:poId" element={<ProtectedRoute role="director"><ReceiveGoodsFormPage /></ProtectedRoute>} />
 
         {/* Catch-all route to redirect unknowns to the internal portal landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -160,6 +165,9 @@ function AppRoutes() {
           <Route path="/director/inventory/purchase-orders" element={<ProtectedRoute role="director"><PurchaseOrderListPage /></ProtectedRoute>} />
           <Route path="/director/inventory/purchase-orders/new" element={<ProtectedRoute role="director"><PurchaseOrderFormPage /></ProtectedRoute>} />
           <Route path="/director/inventory/purchase-orders/:id/edit" element={<ProtectedRoute role="director"><PurchaseOrderFormPage /></ProtectedRoute>} />
+          
+          <Route path="/director/inventory/goods-receiving" element={<ProtectedRoute role="director"><GoodsReceivingListPage /></ProtectedRoute>} />
+          <Route path="/director/inventory/goods-receiving/new/:poId" element={<ProtectedRoute role="director"><ReceiveGoodsFormPage /></ProtectedRoute>} />
         </>
       )}
 

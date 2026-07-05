@@ -27,6 +27,7 @@ from app.warehouse.api import router as warehouse_router
 from app.inventory.api import router as inventory_router
 from app.stock_movement.api import router as stock_movement_router
 from app.purchase_order.api import router as purchase_order_router
+from app.goods_receiving.api import router as goods_receiving_router
 
 
 @asynccontextmanager
@@ -97,6 +98,7 @@ def create_app() -> FastAPI:
     application.include_router(inventory_router, prefix="/api/v1")
     application.include_router(stock_movement_router, prefix="/api/v1")
     application.include_router(purchase_order_router, prefix="/api/v1")
+    application.include_router(goods_receiving_router, prefix="/api/v1")
 
     return application
 
