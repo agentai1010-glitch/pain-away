@@ -1,7 +1,9 @@
 """Product — Database Models"""
 
-from sqlalchemy import String, Boolean, Numeric, Text
-from sqlalchemy.orm import Mapped, mapped_column
+import uuid
+from sqlalchemy import String, Boolean, Numeric, Text, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import UUID
 from app.db.base import Base, UUIDPrimaryKeyMixin, TimestampMixin
 
 class ProductModel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -20,3 +22,7 @@ class ProductModel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # Metadata
     image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+
+    category_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("categories.id", ondelete="SET NULL"), nullable=True)
+    
+    category = relationship("CategoryModel")
