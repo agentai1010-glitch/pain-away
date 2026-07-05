@@ -32,3 +32,19 @@ class PatientAppointmentResponse(BaseModel):
     remaining_amount: Optional[int] = None
     receipt_number: Optional[str] = None
     final_bill_number: Optional[str] = None
+
+class PatientOrderItemResponse(BaseModel):
+    id: str
+    product_name: str
+    product_image: Optional[str] = None
+    ordered_quantity: int
+    selling_price: float
+    line_total: float
+
+class PatientOrderResponse(BaseModel):
+    id: str
+    order_number: str
+    order_date: str
+    status: str
+    grand_total: float
+    items: List[PatientOrderItemResponse]

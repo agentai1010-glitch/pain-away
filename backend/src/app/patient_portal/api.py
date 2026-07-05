@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.shared.dependencies import get_db
 from app.auth.dependencies import get_current_user
 from app.auth.models import User
-from .schemas import PatientDashboardResponse, PatientAppointmentResponse
+from .schemas import PatientDashboardResponse, PatientAppointmentResponse, PatientOrderResponse
 from .service import PatientPortalService
 from typing import List
 
@@ -27,3 +27,12 @@ async def get_patient_appointments(
     """Retrieve all appointments for the authenticated patient."""
     service = PatientPortalService(db)
     return await service.get_patient_appointments(current_user)
+
+@router.get("/orders", response_model=List[PatientOrderResponse])
+async def get_patient_orders(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Retrieve all orders for the authenticated patient."""
+    service = PatientPortalService(db)
+    return await service.get_patient_orders(current_user)

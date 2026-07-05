@@ -109,7 +109,7 @@ export default function DashboardPage() {
               <h3 className="text-gray-500 text-sm font-medium mb-1">Total Orders</h3>
               <p className="text-3xl font-bold text-gray-900">{dashboard.total_orders}</p>
             </div>
-            <Link to="#" className="text-[#2563eb] text-sm font-medium mt-4 hover:underline">View Orders →</Link>
+            <Link to="/portal/orders" className="text-[#2563eb] text-sm font-medium mt-4 hover:underline">View Orders →</Link>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">

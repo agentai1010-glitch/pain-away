@@ -7,10 +7,12 @@ from app.auth.models import User
 from app.patient.models import PatientModel
 from app.scheduling.models import AppointmentModel
 from app.scheduling.domain import AppointmentStatus
-from app.customer_order.models import CustomerOrderModel
+from app.customer_order.models import CustomerOrderModel, CustomerOrderItemModel
+from app.catalog.models import ProductModel
 from app.billing.models import BillingDocumentModel, BillingDocumentType, BookingReceiptModel, FinalBillModel
+from sqlalchemy.orm import selectinload
 
-from .schemas import PatientDashboardResponse, TimelineActivity, PatientAppointmentResponse
+from .schemas import PatientDashboardResponse, TimelineActivity, PatientAppointmentResponse, PatientOrderResponse, PatientOrderItemResponse
 
 class PatientPortalService:
     def __init__(self, db: AsyncSession):
@@ -182,6 +184,46 @@ class PatientPortalService:
                 remaining_amount=remaining_amount,
                 receipt_number=receipt_number,
                 final_bill_number=final_bill_number
+            ))
+            
+        return results
+
+    async def get_patient_orders(self, user: User) -> List[PatientOrderResponse]:
+        mobile_number = user.mobile_number
+        
+        # We need to fetch orders for this phone number, including their items and products
+        stmt = (
+            select(CustomerOrderModel)
+            .where(CustomerOrderModel.customer_phone == mobile_number)
+            .options(
+                selectinload(CustomerOrderModel.items).selectinload(CustomerOrderItemModel.product)
+            )
+            .order_by(desc(CustomerOrderModel.order_date), desc(CustomerOrderModel.created_at))
+        )
+        
+        res = await self.db.execute(stmt)
+        orders = res.scalars().all()
+        
+        results: List[PatientOrderResponse] = []
+        for order in orders:
+            items_res = []
+            for item in order.items:
+                items_res.append(PatientOrderItemResponse(
+                    id=str(item.id),
+                    product_name=item.product_name,
+                    product_image=item.product.image_url if item.product else None,
+                    ordered_quantity=item.ordered_quantity,
+                    selling_price=float(item.selling_price),
+                    line_total=float(item.line_total)
+                ))
+                
+            results.append(PatientOrderResponse(
+                id=str(order.id),
+                order_number=order.order_number,
+                order_date=str(order.order_date),
+                status=order.status.value,
+                grand_total=float(order.grand_total),
+                items=items_res
             ))
             
         return results

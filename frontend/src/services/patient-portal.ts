@@ -36,6 +36,24 @@ export interface PatientAppointmentResponse {
   final_bill_number: string | null;
 }
 
+export interface PatientOrderItemResponse {
+  id: string;
+  product_name: string;
+  product_image: string | null;
+  ordered_quantity: number;
+  selling_price: number;
+  line_total: number;
+}
+
+export interface PatientOrderResponse {
+  id: string;
+  order_number: string;
+  order_date: string;
+  status: string;
+  grand_total: number;
+  items: PatientOrderItemResponse[];
+}
+
 export function usePatientDashboard() {
   return useQuery({
     queryKey: ["patient-dashboard"],
@@ -47,5 +65,12 @@ export function usePatientAppointments() {
   return useQuery({
     queryKey: ["patient-appointments"],
     queryFn: () => apiClient.get<PatientAppointmentResponse[]>("/api/v1/patient-portal/appointments"),
+  });
+}
+
+export function usePatientOrders() {
+  return useQuery({
+    queryKey: ["patient-orders"],
+    queryFn: () => apiClient.get<PatientOrderResponse[]>("/api/v1/patient-portal/orders"),
   });
 }
