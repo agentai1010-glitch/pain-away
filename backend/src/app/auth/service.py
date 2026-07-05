@@ -8,7 +8,7 @@ from sqlalchemy import select
 
 from app.auth.models import User
 from app.auth.schemas import SendOTPRequest, VerifyOTPRequest, TokenResponse
-from app.patient.models import Patient
+from app.patient.models import PatientModel
 from app.auth.dependencies import SECRET_KEY, ALGORITHM
 
 class AuthService:
@@ -36,7 +36,7 @@ class AuthService:
 
         if user is None:
             # Check if there is a patient with this mobile number to automatically link
-            patient_stmt = select(Patient).where(Patient.mobile_number == request.mobile_number)
+            patient_stmt = select(PatientModel).where(PatientModel.mobile_number == request.mobile_number)
             patient_result = await self.session.execute(patient_stmt)
             patient = patient_result.scalar_one_or_none()
             
@@ -49,7 +49,7 @@ class AuthService:
         else:
             # If user exists but is not linked to patient, try to link them now
             if not user.patient_id:
-                patient_stmt = select(Patient).where(Patient.mobile_number == request.mobile_number)
+                patient_stmt = select(PatientModel).where(PatientModel.mobile_number == request.mobile_number)
                 patient_result = await self.session.execute(patient_stmt)
                 patient = patient_result.scalar_one_or_none()
                 if patient:
