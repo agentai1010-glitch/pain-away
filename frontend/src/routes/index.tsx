@@ -21,6 +21,8 @@ import CategoryListPage from "@/pages/director/inventory/CategoryListPage";
 import CategoryFormPage from "@/pages/director/inventory/CategoryFormPage";
 import BrandListPage from "@/pages/director/inventory/BrandListPage";
 import BrandFormPage from "@/pages/director/inventory/BrandFormPage";
+import SupplierListPage from "@/pages/director/inventory/SupplierListPage";
+import SupplierFormPage from "@/pages/director/inventory/SupplierFormPage";
 import ClinicPortalLandingPage from "@/pages/internal/ClinicPortalLandingPage";
 import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
@@ -67,6 +69,10 @@ function AppRoutes() {
         <Route path="/director/inventory/brands" element={<ProtectedRoute role="director"><BrandListPage /></ProtectedRoute>} />
         <Route path="/director/inventory/brands/new" element={<ProtectedRoute role="director"><BrandFormPage /></ProtectedRoute>} />
         <Route path="/director/inventory/brands/:id/edit" element={<ProtectedRoute role="director"><BrandFormPage /></ProtectedRoute>} />
+        
+        <Route path="/director/inventory/suppliers" element={<ProtectedRoute role="director"><SupplierListPage /></ProtectedRoute>} />
+        <Route path="/director/inventory/suppliers/new" element={<ProtectedRoute role="director"><SupplierFormPage /></ProtectedRoute>} />
+        <Route path="/director/inventory/suppliers/:id/edit" element={<ProtectedRoute role="director"><SupplierFormPage /></ProtectedRoute>} />
 
         {/* Catch-all route to redirect unknowns to the internal portal landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -122,6 +128,10 @@ function AppRoutes() {
           <Route path="/director/inventory/brands" element={<ProtectedRoute role="director"><BrandListPage /></ProtectedRoute>} />
           <Route path="/director/inventory/brands/new" element={<ProtectedRoute role="director"><BrandFormPage /></ProtectedRoute>} />
           <Route path="/director/inventory/brands/:id/edit" element={<ProtectedRoute role="director"><BrandFormPage /></ProtectedRoute>} />
+          
+          <Route path="/director/inventory/suppliers" element={<ProtectedRoute role="director"><SupplierListPage /></ProtectedRoute>} />
+          <Route path="/director/inventory/suppliers/new" element={<ProtectedRoute role="director"><SupplierFormPage /></ProtectedRoute>} />
+          <Route path="/director/inventory/suppliers/:id/edit" element={<ProtectedRoute role="director"><SupplierFormPage /></ProtectedRoute>} />
         </>
       )}
 
