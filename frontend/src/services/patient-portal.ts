@@ -54,6 +54,21 @@ export interface PatientOrderResponse {
   items: PatientOrderItemResponse[];
 }
 
+export interface PatientDocumentResponse {
+  id: string;
+  document_type: string;
+  document_number: string;
+  generated_date: string;
+  generated_time: string;
+  document_path: string;
+  appointment_id: string | null;
+  service_name: string | null;
+  total_amount: number | null;
+  advance_paid: number | null;
+  remaining_amount: number | null;
+  balance_paid: number | null;
+}
+
 export function usePatientDashboard() {
   return useQuery({
     queryKey: ["patient-dashboard"],
@@ -72,5 +87,12 @@ export function usePatientOrders() {
   return useQuery({
     queryKey: ["patient-orders"],
     queryFn: () => apiClient.get<PatientOrderResponse[]>("/api/v1/patient-portal/orders"),
+  });
+}
+
+export function usePatientDocuments() {
+  return useQuery({
+    queryKey: ["patient-documents"],
+    queryFn: () => apiClient.get<PatientDocumentResponse[]>("/api/v1/patient-portal/documents"),
   });
 }

@@ -48,3 +48,17 @@ class PatientOrderResponse(BaseModel):
     status: str
     grand_total: float
     items: List[PatientOrderItemResponse]
+
+class PatientDocumentResponse(BaseModel):
+    id: str
+    document_type: str
+    document_number: str
+    generated_date: str
+    generated_time: str
+    document_path: str
+    appointment_id: Optional[str] = None
+    service_name: Optional[str] = None
+    total_amount: Optional[int] = None
+    advance_paid: Optional[int] = None
+    remaining_amount: Optional[int] = None
+    balance_paid: Optional[int] = None

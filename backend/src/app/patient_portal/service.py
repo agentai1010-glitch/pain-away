@@ -12,7 +12,7 @@ from app.product.models import ProductModel
 from app.billing.models import BillingDocumentModel, BillingDocumentType, BookingReceiptModel, FinalBillModel
 from sqlalchemy.orm import selectinload
 
-from .schemas import PatientDashboardResponse, TimelineActivity, PatientAppointmentResponse, PatientOrderResponse, PatientOrderItemResponse
+from .schemas import PatientDashboardResponse, TimelineActivity, PatientAppointmentResponse, PatientOrderResponse, PatientOrderItemResponse, PatientDocumentResponse
 
 class PatientPortalService:
     def __init__(self, db: AsyncSession):
@@ -224,6 +224,67 @@ class PatientPortalService:
                 status=order.status.value,
                 grand_total=float(order.grand_total),
                 items=items_res
+            ))
+            
+        return results
+
+    async def get_patient_documents(self, user: User) -> List[PatientDocumentResponse]:
+        patient_id = user.patient_id
+        if not patient_id:
+            stmt = select(PatientModel).where(PatientModel.mobile_number == user.mobile_number)
+            res = await self.db.execute(stmt)
+            patient = res.scalars().first()
+            if patient:
+                patient_id = patient.id
+                
+        if not patient_id:
+            return []
+            
+        stmt = select(BillingDocumentModel).where(BillingDocumentModel.patient_id == patient_id).order_by(desc(BillingDocumentModel.created_at))
+        res = await self.db.execute(stmt)
+        documents = res.scalars().all()
+        
+        results: List[PatientDocumentResponse] = []
+        
+        for doc in documents:
+            service_name = None
+            total_amount = None
+            advance_paid = None
+            remaining_amount = None
+            balance_paid = None
+            
+            if doc.document_type == BillingDocumentType.BOOKING_RECEIPT:
+                stmt_receipt = select(BookingReceiptModel).where(BookingReceiptModel.document_id == doc.id)
+                res_receipt = await self.db.execute(stmt_receipt)
+                receipt = res_receipt.scalars().first()
+                if receipt:
+                    service_name = receipt.catalog_item_name
+                    total_amount = receipt.total_amount
+                    advance_paid = receipt.advance_paid
+                    remaining_amount = receipt.remaining_amount
+            elif doc.document_type == BillingDocumentType.FINAL_BILL:
+                stmt_bill = select(FinalBillModel).where(FinalBillModel.document_id == doc.id)
+                res_bill = await self.db.execute(stmt_bill)
+                bill = res_bill.scalars().first()
+                if bill:
+                    service_name = bill.catalog_item_name
+                    total_amount = bill.total_amount
+                    advance_paid = bill.advance_paid
+                    balance_paid = bill.balance_paid
+                    
+            results.append(PatientDocumentResponse(
+                id=str(doc.id),
+                document_type=doc.document_type.value,
+                document_number=doc.document_number,
+                generated_date=doc.generated_date,
+                generated_time=doc.generated_time,
+                document_path=doc.document_path,
+                appointment_id=str(doc.appointment_id) if doc.appointment_id else None,
+                service_name=service_name,
+                total_amount=total_amount,
+                advance_paid=advance_paid,
+                remaining_amount=remaining_amount,
+                balance_paid=balance_paid
             ))
             
         return results

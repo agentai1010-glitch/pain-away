@@ -50,6 +50,7 @@ import ProfilePage from "@/pages/public/ProfilePage";
 import DashboardPage from "@/pages/public/portal/DashboardPage";
 import AppointmentsPage from "@/pages/public/portal/AppointmentsPage";
 import OrdersPage from "@/pages/public/portal/OrdersPage";
+import DocumentsPage from "@/pages/public/portal/DocumentsPage";
 
 /**
  * Application route definitions.
@@ -141,6 +142,7 @@ function AppRoutes() {
         <Route path="/portal/dashboard" element={<DashboardPage />} />
         <Route path="/portal/appointments" element={<AppointmentsPage />} />
         <Route path="/portal/orders" element={<OrdersPage />} />
+        <Route path="/portal/documents" element={<DocumentsPage />} />
         
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

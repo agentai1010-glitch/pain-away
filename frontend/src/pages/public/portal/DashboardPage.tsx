@@ -117,7 +117,7 @@ export default function DashboardPage() {
               <h3 className="text-gray-500 text-sm font-medium mb-1">Billing Documents</h3>
               <p className="text-3xl font-bold text-gray-900">{dashboard.available_bills + dashboard.available_receipts}</p>
             </div>
-            <Link to="#" className="text-[#2563eb] text-sm font-medium mt-4 hover:underline">View Receipts & Bills →</Link>
+            <Link to="/portal/documents" className="text-[#2563eb] text-sm font-medium mt-4 hover:underline">View Receipts & Bills →</Link>
           </div>
           
         </div>
