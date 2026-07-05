@@ -30,6 +30,9 @@ import StockMovementListPage from "@/pages/director/inventory/StockMovementListP
 import PurchaseOrderListPage from "@/pages/director/inventory/PurchaseOrderListPage";
 import PurchaseOrderFormPage from "@/pages/director/inventory/PurchaseOrderFormPage";
 import GoodsReceivingListPage from "@/pages/director/inventory/GoodsReceivingListPage";
+import { CustomerOrderListPage } from '@/pages/director/inventory/CustomerOrderListPage';
+import { CustomerOrderFormPage } from '@/pages/director/inventory/CustomerOrderFormPage';
+import { CustomerOrderDetailPage } from '@/pages/director/inventory/CustomerOrderDetailPage';
 import ReceiveGoodsFormPage from "@/pages/director/inventory/ReceiveGoodsFormPage";
 import ClinicPortalLandingPage from "@/pages/internal/ClinicPortalLandingPage";
 import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
@@ -95,6 +98,10 @@ function AppRoutes() {
         
         <Route path="/director/inventory/goods-receiving" element={<ProtectedRoute role="director"><GoodsReceivingListPage /></ProtectedRoute>} />
         <Route path="/director/inventory/goods-receiving/new/:poId" element={<ProtectedRoute role="director"><ReceiveGoodsFormPage /></ProtectedRoute>} />
+        
+        <Route path="/director/inventory/customer-orders" element={<ProtectedRoute role="director"><CustomerOrderListPage /></ProtectedRoute>} />
+        <Route path="/director/inventory/customer-orders/new" element={<ProtectedRoute role="director"><CustomerOrderFormPage /></ProtectedRoute>} />
+        <Route path="/director/inventory/customer-orders/:id" element={<ProtectedRoute role="director"><CustomerOrderDetailPage /></ProtectedRoute>} />
 
         {/* Catch-all route to redirect unknowns to the internal portal landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />

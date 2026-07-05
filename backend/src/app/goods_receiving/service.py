@@ -100,13 +100,13 @@ class GoodsReceivingService:
                 movement_data = StockMovementCreate(
                     product_id=po_item.product_id,
                     warehouse_id=po.warehouse_id,
-                    movement_type="PURCHASE_RECEIPT",
+                    movement_type="GOODS_RECEIVED",
                     quantity_changed=item_data.accepted_quantity,
                     reference_source="GOODS_RECEIPT",
                     notes=f"Receipt {receipt_number} for PO {po.po_number}",
                     created_by=data.created_by or "System"
                 )
-                await self.stock_service.create_movement(movement_data)
+                await self.stock_service.record_movement(movement_data)
 
         receipt.items = receipt_items
 

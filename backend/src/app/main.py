@@ -99,6 +99,7 @@ def create_app() -> FastAPI:
     application.include_router(stock_movement_router, prefix="/api/v1")
     application.include_router(purchase_order_router, prefix="/api/v1")
     application.include_router(goods_receiving_router, prefix="/api/v1")
+    application.include_router(customer_order_router, prefix="/api/v1")
 
     return application
 

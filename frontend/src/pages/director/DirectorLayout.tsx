@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Settings, User, CalendarX, CalendarClock, Package, Folder, Tags, Truck, Building2, Layers, Activity, ShoppingCart } from "lucide-react";
+import { LayoutDashboard, Settings, User, CalendarX, CalendarClock, Package, Folder, Tags, Truck, Building2, Layers, Activity, ShoppingCart, Receipt } from "lucide-react";
 
 export function DirectorLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -13,6 +13,7 @@ export function DirectorLayout({ children }: { children: React.ReactNode }) {
     { name: "Stock Movements", href: "/director/inventory/movements", icon: Activity },
     { name: "Purchase Orders", href: "/director/inventory/purchase-orders", icon: ShoppingCart },
     { name: "Goods Receiving", href: "/director/inventory/goods-receiving", icon: Truck },
+    { name: "Customer Orders", href: "/director/inventory/customer-orders", icon: Receipt },
     { name: "Products", href: "/director/inventory/products", icon: Package },
     { name: "Categories", href: "/director/inventory/categories", icon: Folder },
     { name: "Brands", href: "/director/inventory/brands", icon: Tags },
