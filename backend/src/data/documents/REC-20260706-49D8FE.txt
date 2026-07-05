@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260706-49D8FE
+Date: 2026-07-06
+Time: 01:57:52
+---------------------------------
+Patient Name: kirt karan
+Service: Advanced Posture Correction
+---------------------------------
+Total Amount: Rs. 2500
+Advance Paid: Rs. 500
+Remaining Balance: Rs. 2000
+=================================

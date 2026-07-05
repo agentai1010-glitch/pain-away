@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260706-663DC2
+Date: 2026-07-06
+Time: 01:56:49
+---------------------------------
+Patient Name: Abhi arya
+Service: Complete Back & Neck Recovery Package
+---------------------------------
+Total Amount: Rs. 5000
+Advance Paid: Rs. 1000
+Remaining Balance: Rs. 4000
+=================================

@@ -42,6 +42,7 @@ import PublicLayout from "@/components/public/PublicLayout";
 import ServicesPage from "@/pages/public/ServicesPage";
 import ServiceDetailPage from "@/pages/public/ServiceDetailPage";
 import ProductsPage from "@/pages/public/ProductsPage";
+import ProductDetailPage from "@/pages/public/ProductDetailPage";
 import SignInPage from "@/pages/public/SignInPage";
 import ProfilePage from "@/pages/public/ProfilePage";
 
@@ -125,6 +126,7 @@ function AppRoutes() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
