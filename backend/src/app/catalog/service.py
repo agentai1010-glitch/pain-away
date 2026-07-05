@@ -25,6 +25,15 @@ class CatalogService:
     async def get_catalog_item(self, item_id) -> CatalogItemModel | None:
         return await self.repository.get_item_by_id(item_id)
 
+    async def get_public_catalog_item(self, item_id: str) -> CatalogItemModel:
+        import uuid
+        if isinstance(item_id, str):
+            item_id = uuid.UUID(item_id)
+        item = await self.repository.get_item_by_id(item_id)
+        if not item or not item.is_active:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Catalog item not found.")
+        return item
+
     async def get_all_catalog_items(self) -> Sequence[CatalogItemModel]:
         """Get all catalog items for director management."""
         return await self.repository.get_all_items()

@@ -40,6 +40,7 @@ import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import PublicLayout from "@/components/public/PublicLayout";
 import ServicesPage from "@/pages/public/ServicesPage";
+import ServiceDetailPage from "@/pages/public/ServiceDetailPage";
 import ProductsPage from "@/pages/public/ProductsPage";
 import SignInPage from "@/pages/public/SignInPage";
 import ProfilePage from "@/pages/public/ProfilePage";
@@ -122,6 +123,7 @@ function AppRoutes() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/profile" element={<ProfilePage />} />

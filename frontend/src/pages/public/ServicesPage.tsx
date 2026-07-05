@@ -76,11 +76,8 @@ export default function ServicesPage() {
                 </div>
               </div>
               
-              <Link 
-                to="/book" 
-                className="mt-8 block w-full py-4 text-center rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-colors"
-              >
-                Book This Service
+              <Link to={`/services/${service.id}`} className="mt-8 block w-full py-4 text-center rounded-xl bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 transition-colors">
+                View Details
               </Link>
             </div>
           ))}

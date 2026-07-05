@@ -20,6 +20,15 @@ async def get_public_catalog(
     service = CatalogService(db)
     return await service.get_public_catalog()
 
+@router.get("/public/{item_id}", response_model=CatalogItemResponse)
+async def get_public_catalog_item(
+    item_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """Retrieve details of a single active catalog item."""
+    service = CatalogService(db)
+    return await service.get_public_catalog_item(item_id)
+
 
 # --- Director Endpoints ---
 
