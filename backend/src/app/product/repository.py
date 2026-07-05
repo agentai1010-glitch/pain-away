@@ -33,4 +33,5 @@ class ProductRepository:
     async def update(self, product: ProductModel) -> ProductModel:
         self.session.add(product)
         await self.session.flush()
+        await self.session.refresh(product)
         return product
