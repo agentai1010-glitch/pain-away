@@ -61,21 +61,9 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans pb-24 pt-12 md:pt-20">
       
-      {/* Hero Section */}
-      <section className="text-center px-4 max-w-4xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm mb-6">
-          <ShoppingBag className="w-4 h-4" />
-          Premium Wellness Products
-        </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">
-          Support Your Recovery <br className="hidden md:block"/> with <span className="text-indigo-600">Expert Care Products</span>
-        </h1>
-        <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto mb-10">
-          Discover our curated selection of high-quality physiotherapy and wellness products designed to accelerate your healing journey.
-        </p>
-
-        {/* Search Bar */}
-        <div className="max-w-xl mx-auto relative group">
+      {/* Search Section */}
+      <section className="px-6 md:px-12 lg:px-24 max-w-[1600px] mx-auto mb-8 mt-4">
+        <div className="relative group w-full">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors">
             <Search className="w-5 h-5" />
           </div>
@@ -89,7 +77,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="px-6 md:px-12 lg:px-24 max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
+      <section className="px-6 md:px-12 lg:px-24 max-w-[1600px] mx-auto flex flex-col md:flex-row gap-8">
         
         {/* Sidebar Filters */}
         <aside className="w-full md:w-64 flex-shrink-0 space-y-8">
@@ -172,7 +160,7 @@ export default function ProductsPage() {
           </div>
 
           {isLoading ? (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
               {[1, 2, 3, 4, 5, 6].map((n) => (
                 <div key={n} className="bg-white rounded-3xl p-6 border border-slate-100 h-80 animate-pulse flex flex-col">
                   <div className="w-full h-40 bg-slate-100 rounded-2xl mb-4"></div>
@@ -197,7 +185,7 @@ export default function ProductsPage() {
               </button>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
               {filteredAndSortedProducts.map((product) => (
                 <Link 
                   key={product.id} 
