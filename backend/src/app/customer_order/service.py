@@ -60,8 +60,8 @@ class CustomerOrderService:
         for item_data in data.items:
             product = await self._get_product(item_data.product_id)
             
-            line_total = product.selling_price * item_data.ordered_quantity
-            item_tax = line_total * (product.tax_rate / 100.0)
+            line_total = float(product.selling_price) * item_data.ordered_quantity
+            item_tax = line_total * (float(product.tax_rate) / 100.0)
             
             order_item = CustomerOrderItemModel(
                 product_id=product.id,
@@ -111,8 +111,8 @@ class CustomerOrderService:
             for item_data in data.items:
                 product = await self._get_product(item_data.product_id)
                 
-                line_total = product.selling_price * item_data.ordered_quantity
-                item_tax = line_total * (product.tax_rate / 100.0)
+                line_total = float(product.selling_price) * item_data.ordered_quantity
+                item_tax = line_total * (float(product.tax_rate) / 100.0)
                 
                 order_item = CustomerOrderItemModel(
                     product_id=product.id,
