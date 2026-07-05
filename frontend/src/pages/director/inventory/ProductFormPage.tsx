@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCreateProduct, useUpdateProduct, useProduct } from "@/services/product";
+import { useCategories } from "@/services/category";
+import { useBrands } from "@/services/brand";
 import { ArrowLeft, Loader2, Save } from "lucide-react";
 import DirectorLayout from "../DirectorLayout";
 import { Link } from "react-router-dom";
@@ -10,7 +12,10 @@ export function ProductFormPage() {
   const isEditing = Boolean(id);
   const navigate = useNavigate();
 
-  const { data: existingProduct, isLoading: isLoadingProduct } = useProduct(id as string);
+  const { data: existingProduct, isLoading: isLoadingProduct } = useProduct(id || "");
+  const { data: categories } = useCategories(true);
+  const { data: brands } = useBrands(true);
+
   const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
   const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
 
@@ -23,7 +28,10 @@ export function ProductFormPage() {
     description: "",
     selling_price: "0",
     cost_price: "0",
-    tax_rate: "0"
+    tax_rate: "0",
+    image_url: "",
+    category_id: "",
+    brand_id: ""
   });
 
   useEffect(() => {
@@ -35,7 +43,10 @@ export function ProductFormPage() {
         description: existingProduct.description || "",
         selling_price: existingProduct.selling_price.toString(),
         cost_price: existingProduct.cost_price.toString(),
-        tax_rate: existingProduct.tax_rate.toString()
+        tax_rate: existingProduct.tax_rate.toString(),
+        image_url: existingProduct.image_url || "",
+        category_id: existingProduct.category_id || "",
+        brand_id: existingProduct.brand_id || ""
       });
     }
   }, [existingProduct]);
@@ -47,6 +58,9 @@ export function ProductFormPage() {
       selling_price: parseFloat(formData.selling_price) || 0,
       cost_price: parseFloat(formData.cost_price) || 0,
       tax_rate: parseFloat(formData.tax_rate) || 0,
+      image_url: formData.image_url || undefined,
+      category_id: formData.category_id || undefined,
+      brand_id: formData.brand_id || undefined
     };
 
     if (isEditing && id) {
@@ -162,6 +176,39 @@ export function ProductFormPage() {
                     value={formData.tax_rate}
                     onChange={e => setFormData(p => ({ ...p, tax_rate: e.target.value }))}
                   />
+                </div>
+              </div>
+            </div>
+            
+            <div className="md:col-span-2 border-t pt-4 mt-2">
+              <h3 className="font-medium text-slate-900 mb-4">Classification</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-700">Category (Optional)</label>
+                  <select 
+                    className="w-full p-2.5 border rounded-xl focus:ring-2 focus:ring-[#002b84] outline-none bg-white"
+                    value={formData.category_id}
+                    onChange={e => setFormData(p => ({ ...p, category_id: e.target.value }))}
+                  >
+                    <option value="">-- None --</option>
+                    {categories?.map(cat => (
+                      <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-700">Brand (Optional)</label>
+                  <select 
+                    className="w-full p-2.5 border rounded-xl focus:ring-2 focus:ring-[#002b84] outline-none bg-white"
+                    value={formData.brand_id}
+                    onChange={e => setFormData(p => ({ ...p, brand_id: e.target.value }))}
+                  >
+                    <option value="">-- None --</option>
+                    {brands?.map(brand => (
+                      <option key={brand.id} value={brand.id}>{brand.name}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>

@@ -21,6 +21,7 @@ from app.reception.api import router as reception_router
 from app.director.api import router as director_router
 from app.product.api import router as product_router
 from app.category.api import router as category_router
+from app.brand.api import router as brand_router
 
 
 @asynccontextmanager
@@ -85,6 +86,7 @@ def create_app() -> FastAPI:
     application.include_router(director_router, prefix="/api/v1")
     application.include_router(product_router, prefix="/api/v1")
     application.include_router(category_router, prefix="/api/v1")
+    application.include_router(brand_router, prefix="/api/v1")
 
     return application
 

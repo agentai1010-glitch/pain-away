@@ -14,6 +14,7 @@ class ProductBase(BaseModel):
     tax_rate: float = Field(0.0, ge=0, le=100)
     image_url: str | None = None
     category_id: uuid.UUID | None = None
+    brand_id: uuid.UUID | None = None
 
 class ProductCreate(ProductBase):
     pass

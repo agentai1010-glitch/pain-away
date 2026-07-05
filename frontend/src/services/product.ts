@@ -11,6 +11,8 @@ export interface Product {
   cost_price: number;
   tax_rate: number;
   image_url?: string;
+  category_id?: string;
+  brand_id?: string;
   is_active: boolean;
   created_at: string;
   updated_at: string;
