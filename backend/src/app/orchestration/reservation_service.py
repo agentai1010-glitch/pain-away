@@ -18,7 +18,7 @@ class InventoryReservationOrchestrator:
     async def _get_main_warehouse(self) -> uuid.UUID:
         from app.warehouse.service import WarehouseService
         warehouse_service = WarehouseService(self.session)
-        warehouses = await warehouse_service.list_warehouses()
+        warehouses = await warehouse_service.get_all_warehouses(include_inactive=False)
         if not warehouses:
             raise HTTPException(status_code=400, detail="No warehouses configured in the system.")
         return warehouses[0].id
