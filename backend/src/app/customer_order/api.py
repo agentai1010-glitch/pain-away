@@ -65,6 +65,6 @@ async def cancel_customer_order(
 @router.post("/{order_id}/complete", response_model=CustomerOrderResponse)
 async def complete_customer_order(
     order_id: UUID,
-    service: CustomerOrderService = Depends(get_customer_order_service)
+    orchestrator: InventoryReservationOrchestrator = Depends(get_reservation_orchestrator)
 ):
-    return await service.update_status(order_id, OrderStatusEnum.COMPLETED)
+    return await orchestrator.complete_order(order_id)

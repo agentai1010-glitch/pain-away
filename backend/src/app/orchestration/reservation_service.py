@@ -69,6 +69,31 @@ class InventoryReservationOrchestrator:
         return await self.co_service.update_status(order_id, OrderStatusEnum.CONFIRMED)
 
 
+    async def _get_reserved_warehouse_for_product(self, product_id: uuid.UUID, required_qty: int) -> uuid.UUID:
+        from app.warehouse.service import WarehouseService
+        warehouse_service = WarehouseService(self.session)
+        warehouses = await warehouse_service.get_all_warehouses(include_inactive=False)
+            
+        from app.inventory.models import InventoryModel
+        from sqlalchemy import select
+        
+        # Try to find a warehouse that has enough reserved stock
+        for w in warehouses:
+            stmt = select(InventoryModel).where(
+                InventoryModel.product_id == product_id,
+                InventoryModel.warehouse_id == w.id
+            )
+            res = await self.session.execute(stmt)
+            inv = res.scalars().first()
+            if inv and inv.reserved_quantity >= required_qty:
+                return w.id
+                
+        # Fallback to default warehouse
+        for w in warehouses:
+            if w.is_default:
+                return w.id
+        return warehouses[0].id
+
     async def cancel_order(self, order_id: uuid.UUID, user: str = "System") -> CustomerOrderModel:
         order = await self.co_service.get_order(order_id)
         
@@ -80,7 +105,7 @@ class InventoryReservationOrchestrator:
             raise HTTPException(status_code=400, detail=f"Cannot cancel order in {order.status.value} status.")
             
         for item in order.items:
-            warehouse_id = await self._get_warehouse_for_product(item.product_id, item.ordered_quantity)
+            warehouse_id = await self._get_reserved_warehouse_for_product(item.product_id, item.ordered_quantity)
             sm_data = StockMovementCreate(
                 product_id=item.product_id,
                 warehouse_id=warehouse_id,
@@ -93,3 +118,38 @@ class InventoryReservationOrchestrator:
             await self.sm_service.record_movement(sm_data)
             
         return await self.co_service.update_status(order_id, OrderStatusEnum.CANCELLED)
+
+    async def complete_order(self, order_id: uuid.UUID, user: str = "System") -> CustomerOrderModel:
+        order = await self.co_service.get_order(order_id)
+        
+        if order.status != OrderStatusEnum.CONFIRMED:
+            raise HTTPException(status_code=400, detail=f"Cannot complete order in {order.status.value} status.")
+            
+        for item in order.items:
+            warehouse_id = await self._get_reserved_warehouse_for_product(item.product_id, item.ordered_quantity)
+            
+            # 1. Release the reservation
+            sm_release = StockMovementCreate(
+                product_id=item.product_id,
+                warehouse_id=warehouse_id,
+                movement_type=MovementTypeEnum.RESERVATION_RELEASED,
+                quantity_changed=item.ordered_quantity,
+                reference_source="CUSTOMER_ORDER",
+                notes=f"Released reservation for completed order {order.order_number}",
+                created_by=user
+            )
+            await self.sm_service.record_movement(sm_release)
+            
+            # 2. Record the physical sale deduction
+            sm_sale = StockMovementCreate(
+                product_id=item.product_id,
+                warehouse_id=warehouse_id,
+                movement_type=MovementTypeEnum.SALE,
+                quantity_changed=item.ordered_quantity,
+                reference_source="CUSTOMER_ORDER",
+                notes=f"Sale for completed order {order.order_number}",
+                created_by=user
+            )
+            await self.sm_service.record_movement(sm_sale)
+            
+        return await self.co_service.update_status(order_id, OrderStatusEnum.COMPLETED)
