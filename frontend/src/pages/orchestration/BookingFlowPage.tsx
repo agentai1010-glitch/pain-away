@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { 
   useCheckPatientStatus, 
   useConfirmBooking 
@@ -23,6 +24,9 @@ import { CatalogItem } from "@/types/catalog";
 export function BookingFlowPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [hasCheckedPatient, setHasCheckedPatient] = useState(false);
+  const [searchParams] = useSearchParams();
+  const serviceIdFromUrl = searchParams.get("service");
+  const [serviceError, setServiceError] = useState<string | null>(null);
   
   // Form State
   const [patientData, setPatientData] = useState({
@@ -46,6 +50,18 @@ export function BookingFlowPage() {
   const { data: catalogItems, isLoading: loadingCatalog } = usePublicCatalog();
   const { data: availableDates, isLoading: loadingSlots } = useAvailableSlots();
   const { mutate: confirmBooking, isPending: confirmingBooking, error: confirmError } = useConfirmBooking();
+
+  useEffect(() => {
+    if (catalogItems && catalogItems.length > 0 && serviceIdFromUrl && !catalogItem) {
+      const found = catalogItems.find(item => item.id === serviceIdFromUrl);
+      if (found) {
+        setCatalogItem(found);
+        setServiceError(null);
+      } else {
+        setServiceError("The selected service is currently unavailable or invalid. Please select a service below.");
+      }
+    }
+  }, [catalogItems, serviceIdFromUrl, catalogItem]);
 
   const handlePatientSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,6 +249,12 @@ export function BookingFlowPage() {
               <span className="bg-primary text-primary-foreground w-6 h-6 rounded-full inline-flex items-center justify-center text-sm">2</span> 
               Select Service
             </h2>
+            
+            {serviceError && (
+              <div className="mb-4 p-4 bg-amber-50 text-amber-800 rounded-xl border border-amber-200 text-sm font-medium">
+                {serviceError}
+              </div>
+            )}
             
             <div className="space-y-4">
               {loadingCatalog ? (

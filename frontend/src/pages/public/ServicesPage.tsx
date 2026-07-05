@@ -110,7 +110,7 @@ export default function ServicesPage() {
                   </div>
                   
                   <Link 
-                    to="/book" 
+                    to={`/book?service=${pkg.id}`} 
                     className="inline-block px-8 py-4 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-50 transition-colors"
                   >
                     Select Package

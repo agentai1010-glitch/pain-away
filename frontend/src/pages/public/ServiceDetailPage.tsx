@@ -71,7 +71,7 @@ export default function ServiceDetailPage() {
               </div>
               
               <Link 
-                to="/book" 
+                to={`/book?service=${service.id}`} 
                 className="mt-4 md:mt-0 md:ml-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-blue-500/30 transition-all hover:-translate-y-1"
               >
                 Book Appointment
@@ -170,7 +170,7 @@ export default function ServiceDetailPage() {
           <div className="bg-blue-50 rounded-3xl p-8 border border-blue-100 text-center">
             <h3 className="text-xl font-bold text-slate-900 mb-2">Need Help?</h3>
             <p className="text-slate-600 text-sm mb-6">Not sure if this treatment is right for you? Call our desk for a free consultation.</p>
-            <Link to="/book" className="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors">
+            <Link to={`/book?service=${service.id}`} className="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors">
               Book Appointment
             </Link>
           </div>
