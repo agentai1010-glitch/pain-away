@@ -1,6 +1,7 @@
 """Auth — Request/Response Schemas"""
 
 from pydantic import BaseModel, Field, ConfigDict
+from uuid import UUID
 
 class SendOTPRequest(BaseModel):
     mobile_number: str = Field(..., min_length=10, max_length=15, description="Mobile number with country code")
@@ -16,9 +17,9 @@ class TokenResponse(BaseModel):
     patient_id: str | None = None
 
 class UserProfileResponse(BaseModel):
-    id: str
+    id: UUID
     mobile_number: str
-    patient_id: str | None = None
+    patient_id: UUID | None = None
     is_active: bool
 
     model_config = ConfigDict(from_attributes=True)
