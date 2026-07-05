@@ -123,7 +123,7 @@ export default function ProductDetailPage() {
 
                 <button 
                   disabled={isOutOfStock}
-                  onClick={() => alert("This product is available for purchase at the clinic reception. Please visit us to buy!")}
+                  onClick={() => navigate(`/products/${product.id}/checkout`)}
                   className={`w-full py-4 rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-2 ${
                     isOutOfStock 
                       ? "bg-slate-100 text-slate-400 cursor-not-allowed" 
