@@ -27,3 +27,8 @@ async def verify_otp(request: VerifyOTPRequest, db: AsyncSession = Depends(get_d
 async def get_my_profile(current_user: User = Depends(get_current_user)):
     """Get current authenticated user profile."""
     return current_user
+
+@router.post("/logout")
+async def logout(current_user: User = Depends(get_current_user)):
+    """Logout current user (client-side token removal)."""
+    return {"message": "Successfully logged out"}

@@ -42,6 +42,7 @@ import PublicLayout from "@/components/public/PublicLayout";
 import ServicesPage from "@/pages/public/ServicesPage";
 import ProductsPage from "@/pages/public/ProductsPage";
 import SignInPage from "@/pages/public/SignInPage";
+import ProfilePage from "@/pages/public/ProfilePage";
 
 /**
  * Application route definitions.
@@ -123,6 +124,7 @@ function AppRoutes() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/login" element={<SignInPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
       {/* Patient Booking Flow */}

@@ -38,5 +38,21 @@ export const authService = {
       throw error;
     }
     return res.json();
+  },
+
+  logout: async () => {
+    const token = localStorage.getItem("patient_token");
+    if (token) {
+      try {
+        await fetch(`${API_URL}/auth/logout`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      } catch (err) {
+        console.error("Logout API failed, ignoring", err);
+      }
+    }
+    localStorage.removeItem("patient_token");
+    localStorage.removeItem("patient_id");
   }
 };
