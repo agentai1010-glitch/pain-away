@@ -20,3 +20,15 @@ class PatientDashboardResponse(BaseModel):
     upcoming_appointment_time: Optional[str] = None
     
     recent_activity: List[TimelineActivity]
+
+class PatientAppointmentResponse(BaseModel):
+    id: str
+    service_name: str
+    date: str
+    time: str
+    status: str
+    booking_date: str
+    advance_paid: int
+    remaining_amount: Optional[int] = None
+    receipt_number: Optional[str] = None
+    final_bill_number: Optional[str] = None

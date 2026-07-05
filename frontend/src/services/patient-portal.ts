@@ -23,9 +23,29 @@ export interface PatientDashboardResponse {
   recent_activity: TimelineActivity[];
 }
 
+export interface PatientAppointmentResponse {
+  id: string;
+  service_name: string;
+  date: string;
+  time: string;
+  status: string;
+  booking_date: string;
+  advance_paid: number;
+  remaining_amount: number | null;
+  receipt_number: string | null;
+  final_bill_number: string | null;
+}
+
 export function usePatientDashboard() {
   return useQuery({
     queryKey: ["patient-dashboard"],
     queryFn: () => apiClient.get<PatientDashboardResponse>("/api/v1/patient-portal/dashboard"),
+  });
+}
+
+export function usePatientAppointments() {
+  return useQuery({
+    queryKey: ["patient-appointments"],
+    queryFn: () => apiClient.get<PatientAppointmentResponse[]>("/api/v1/patient-portal/appointments"),
   });
 }

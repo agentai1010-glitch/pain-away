@@ -48,6 +48,7 @@ import OrderConfirmationPage from "@/pages/public/OrderConfirmationPage";
 import SignInPage from "@/pages/public/SignInPage";
 import ProfilePage from "@/pages/public/ProfilePage";
 import DashboardPage from "@/pages/public/portal/DashboardPage";
+import AppointmentsPage from "@/pages/public/portal/AppointmentsPage";
 
 /**
  * Application route definitions.
@@ -137,6 +138,7 @@ function AppRoutes() {
         
         {/* Patient Portal Protected Routes */}
         <Route path="/portal/dashboard" element={<DashboardPage />} />
+        <Route path="/portal/appointments" element={<AppointmentsPage />} />
         
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

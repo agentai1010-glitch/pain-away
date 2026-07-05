@@ -8,9 +8,9 @@ from app.patient.models import PatientModel
 from app.scheduling.models import AppointmentModel
 from app.scheduling.domain import AppointmentStatus
 from app.customer_order.models import CustomerOrderModel
-from app.billing.models import BillingDocumentModel, BillingDocumentType
+from app.billing.models import BillingDocumentModel, BillingDocumentType, BookingReceiptModel, FinalBillModel
 
-from .schemas import PatientDashboardResponse, TimelineActivity
+from .schemas import PatientDashboardResponse, TimelineActivity, PatientAppointmentResponse
 
 class PatientPortalService:
     def __init__(self, db: AsyncSession):
@@ -127,3 +127,61 @@ class PatientPortalService:
             upcoming_appointment_time=str(upcoming_appt.start_time) if upcoming_appt else None,
             recent_activity=activities
         )
+
+    async def get_patient_appointments(self, user: User) -> List[PatientAppointmentResponse]:
+        patient_id = user.patient_id
+        if not patient_id:
+            stmt = select(PatientModel).where(PatientModel.mobile_number == user.mobile_number)
+            res = await self.db.execute(stmt)
+            patient = res.scalars().first()
+            if patient:
+                patient_id = patient.id
+                
+        if not patient_id:
+            return []
+            
+        stmt = select(AppointmentModel).where(AppointmentModel.patient_id == patient_id).order_by(desc(AppointmentModel.date), desc(AppointmentModel.start_time))
+        res = await self.db.execute(stmt)
+        appointments = res.scalars().all()
+        
+        results: List[PatientAppointmentResponse] = []
+        
+        for appt in appointments:
+            service_name = "Consultation"
+            advance_paid = 0
+            remaining_amount = None
+            receipt_number = appt.receipt_number
+            final_bill_number = None
+            
+            # Fetch Booking Receipt
+            if receipt_number:
+                stmt_receipt = select(BookingReceiptModel).where(BookingReceiptModel.receipt_number == receipt_number)
+                res_receipt = await self.db.execute(stmt_receipt)
+                receipt = res_receipt.scalars().first()
+                if receipt:
+                    service_name = receipt.catalog_item_name
+                    advance_paid = receipt.advance_paid
+                    remaining_amount = receipt.remaining_amount
+                    
+            # Fetch Final Bill if completed
+            if appt.status == AppointmentStatus.COMPLETED:
+                stmt_bill = select(FinalBillModel).where(FinalBillModel.appointment_id == appt.id)
+                res_bill = await self.db.execute(stmt_bill)
+                bill = res_bill.scalars().first()
+                if bill:
+                    final_bill_number = bill.bill_number
+                    
+            results.append(PatientAppointmentResponse(
+                id=str(appt.id),
+                service_name=service_name,
+                date=str(appt.date),
+                time=str(appt.start_time),
+                status=appt.status.value,
+                booking_date=appt.created_at.isoformat() if appt.created_at else "",
+                advance_paid=advance_paid,
+                remaining_amount=remaining_amount,
+                receipt_number=receipt_number,
+                final_bill_number=final_bill_number
+            ))
+            
+        return results
