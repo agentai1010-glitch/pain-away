@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import "./landing.css";
 
@@ -117,102 +116,19 @@ const services = [
 
 
 
-const navLinks = [
-  { label: "Home", href: "#hero" },
-  { label: "Services", href: "#services" },
-  { label: "About Us", href: "#treatment" },
-  { label: "Benefits", href: "#benefits" },
-  { label: "Contact", href: "#visit" },
-];
+
 
 /* ─── Component ─── */
 export default function LandingPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const containerRef = useScrollReveal();
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Lock body scroll when mobile menu open
-  useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [mobileMenuOpen]);
-
   const scrollToSection = (href: string) => {
-    setMobileMenuOpen(false);
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div ref={containerRef} className="font-sans antialiased">
-      {/* ═══ NAVBAR ═══ */}
-      <nav className={`landing-nav ${scrolled ? "scrolled" : ""}`}>
-        <div className="w-full h-16 px-8 md:px-12 lg:px-24 flex items-center justify-end relative">
-          {/* Logo */}
-          <a href="#hero" onClick={(e) => { e.preventDefault(); scrollToSection("#hero"); }} className="absolute left-8 md:left-12 lg:left-24 top-0 flex items-center gap-2 z-[110]">
-            <img src="/images/logo-white.png" alt="Pain Away" className="h-[12.5rem] w-auto brightness-0 invert drop-shadow-2xl" />
-          </a>
-
-          {/* Desktop Nav */}
-          <div className="desktop-nav hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-                className="nav-link"
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href="/book"
-              className="nav-cta"
-            >
-              Book Appointment
-            </a>
-          </div>
-
-          {/* Mobile Hamburger */}
-          <button
-            className={`mobile-menu-btn md:hidden ${mobileMenuOpen ? "open" : ""}`}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle navigation menu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-        
-      </nav>
-
-      {/* Mobile Nav Overlay */}
-      <div className={`mobile-nav-overlay ${mobileMenuOpen ? "open" : ""}`}>
-        {navLinks.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-          >
-            {link.label}
-          </a>
-        ))}
-        <a
-          href="/book"
-          className="nav-cta mt-4"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Book Appointment
-        </a>
-      </div>
-
       {/* ═══ SECTION 1: HERO ═══ */}
       <section id="hero" className="hero-section">
         <div className="hero-bg">

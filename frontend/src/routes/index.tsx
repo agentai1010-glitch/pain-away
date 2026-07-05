@@ -38,6 +38,10 @@ import ReceiveGoodsFormPage from "@/pages/director/inventory/ReceiveGoodsFormPag
 import ClinicPortalLandingPage from "@/pages/internal/ClinicPortalLandingPage";
 import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import PublicLayout from "@/components/public/PublicLayout";
+import ServicesPage from "@/pages/public/ServicesPage";
+import ProductsPage from "@/pages/public/ProductsPage";
+import SignInPage from "@/pages/public/SignInPage";
 
 /**
  * Application route definitions.
@@ -113,8 +117,14 @@ function AppRoutes() {
 
   return (
     <Routes>
-      {/* Public Landing Page */}
-      <Route path="/" element={<LandingPage />} />
+      {/* Public Pages with Global Navigation */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/login" element={<SignInPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
       {/* Patient Booking Flow */}
       <Route path="/catalog" element={<RootLayout />}>
         <Route index element={<CatalogPage />} />
