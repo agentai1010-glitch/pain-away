@@ -15,12 +15,31 @@ class InventoryReservationOrchestrator:
         self.co_service = CustomerOrderService(session)
         self.sm_service = StockMovementService(session)
 
-    async def _get_main_warehouse(self) -> uuid.UUID:
+    async def _get_warehouse_for_product(self, product_id: uuid.UUID, required_qty: int) -> uuid.UUID:
         from app.warehouse.service import WarehouseService
         warehouse_service = WarehouseService(self.session)
         warehouses = await warehouse_service.get_all_warehouses(include_inactive=False)
         if not warehouses:
             raise HTTPException(status_code=400, detail="No warehouses configured in the system.")
+            
+        from app.inventory.models import InventoryModel
+        from sqlalchemy import select
+        
+        # Try to find a warehouse that has enough stock
+        for w in warehouses:
+            stmt = select(InventoryModel).where(
+                InventoryModel.product_id == product_id,
+                InventoryModel.warehouse_id == w.id
+            )
+            res = await self.session.execute(stmt)
+            inv = res.scalars().first()
+            if inv and inv.available_quantity >= required_qty:
+                return w.id
+                
+        # Fallback to default warehouse
+        for w in warehouses:
+            if w.is_default:
+                return w.id
         return warehouses[0].id
 
     async def confirm_order(self, order_id: uuid.UUID, user: str = "System") -> CustomerOrderModel:
@@ -28,9 +47,8 @@ class InventoryReservationOrchestrator:
         if order.status != OrderStatusEnum.DRAFT:
             raise HTTPException(status_code=400, detail=f"Cannot confirm order in {order.status.value} status.")
             
-        warehouse_id = await self._get_main_warehouse()
-        
         for item in order.items:
+            warehouse_id = await self._get_warehouse_for_product(item.product_id, item.ordered_quantity)
             sm_data = StockMovementCreate(
                 product_id=item.product_id,
                 warehouse_id=warehouse_id,
@@ -61,9 +79,8 @@ class InventoryReservationOrchestrator:
         if order.status != OrderStatusEnum.CONFIRMED:
             raise HTTPException(status_code=400, detail=f"Cannot cancel order in {order.status.value} status.")
             
-        warehouse_id = await self._get_main_warehouse()
-        
         for item in order.items:
+            warehouse_id = await self._get_warehouse_for_product(item.product_id, item.ordered_quantity)
             sm_data = StockMovementCreate(
                 product_id=item.product_id,
                 warehouse_id=warehouse_id,
