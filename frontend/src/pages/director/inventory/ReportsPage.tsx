@@ -206,7 +206,7 @@ export const ReportsPage: React.FC = () => {
                       <span className="text-sm font-medium">Inventory Value</span>
                       <DollarSign className="w-5 h-5 text-emerald-500" />
                     </div>
-                    <div className="mt-2 text-3xl font-extrabold text-[#002b84]">₹{dashData.current_inventory_value.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+                    <div className="mt-2 text-3xl font-extrabold text-[#002b84]">₹ {dashData.current_inventory_value.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
                     <div className="mt-1 text-xs text-slate-500">Based on cost price valuation</div>
                   </div>
                 </div>
@@ -327,8 +327,8 @@ export const ReportsPage: React.FC = () => {
                           <td className="px-6 py-4 text-right font-medium">{row.current_quantity}</td>
                           <td className="px-6 py-4 text-right text-amber-600">{row.reserved_quantity}</td>
                           <td className="px-6 py-4 text-right font-bold text-slate-900">{row.available_quantity}</td>
-                          <td className="px-6 py-4 text-right text-slate-600">₹{row.unit_cost.toFixed(2)}</td>
-                          <td className="px-6 py-4 text-right font-bold text-[#002b84]">₹{row.inventory_value.toFixed(2)}</td>
+                          <td className="px-6 py-4 text-right text-slate-600">₹ {row.unit_cost.toFixed(2)}</td>
+                          <td className="px-6 py-4 text-right font-bold text-[#002b84]">₹ {row.inventory_value.toFixed(2)}</td>
                         </tr>
                       ))}
                       {invData.length === 0 && (
@@ -392,7 +392,7 @@ export const ReportsPage: React.FC = () => {
                             <td className="px-6 py-4 text-right">{sup.total_orders}</td>
                             <td className="px-6 py-4 text-right text-amber-600 font-medium">{sup.pending_orders}</td>
                             <td className="px-6 py-4 text-right text-green-600 font-medium">{sup.fully_received_orders}</td>
-                            <td className="px-6 py-4 text-right font-bold text-[#002b84]">₹{sup.total_spent.toFixed(2)}</td>
+                            <td className="px-6 py-4 text-right font-bold text-[#002b84]">₹ {sup.total_spent.toFixed(2)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -444,7 +444,7 @@ export const ReportsPage: React.FC = () => {
                 <div className="sm:col-span-2 lg:col-span-3 bg-gradient-to-r from-[#002b84] to-blue-900 p-8 rounded-2xl text-white shadow-md flex items-center justify-between">
                   <div>
                     <div className="text-sm font-medium text-blue-200 uppercase tracking-wider">Total Completed Revenue</div>
-                    <div className="mt-2 text-4xl font-extrabold">₹{comData.total_revenue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+                    <div className="mt-2 text-4xl font-extrabold">₹ {comData.total_revenue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
                     <p className="text-xs text-blue-100 mt-1">Based on grand total of all COMPLETED customer orders</p>
                   </div>
                   <DollarSign className="w-16 h-16 text-white opacity-20" />

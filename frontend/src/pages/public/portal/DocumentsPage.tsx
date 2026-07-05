@@ -128,28 +128,28 @@ export default function DocumentsPage() {
                       {doc.total_amount !== null && (
                         <div>
                           <span className="text-gray-500">Total Amount: </span>
-                          <span className="font-medium text-gray-900">₹{doc.total_amount}</span>
+                          <span className="font-medium text-gray-900">₹ {doc.total_amount}</span>
                         </div>
                       )}
                       
                       {doc.advance_paid !== null && (
                         <div>
                           <span className="text-gray-500">Advance Paid: </span>
-                          <span className="font-medium text-gray-900">₹{doc.advance_paid}</span>
+                          <span className="font-medium text-gray-900">₹ {doc.advance_paid}</span>
                         </div>
                       )}
                       
                       {doc.remaining_amount !== null && (
                         <div>
                           <span className="text-gray-500">Remaining Amount: </span>
-                          <span className="font-medium text-red-600">₹{doc.remaining_amount}</span>
+                          <span className="font-medium text-red-600">₹ {doc.remaining_amount}</span>
                         </div>
                       )}
                       
                       {doc.balance_paid !== null && (
                         <div>
                           <span className="text-gray-500">Balance Paid: </span>
-                          <span className="font-medium text-gray-900">₹{doc.balance_paid}</span>
+                          <span className="font-medium text-gray-900">₹ {doc.balance_paid}</span>
                         </div>
                       )}
                     </div>

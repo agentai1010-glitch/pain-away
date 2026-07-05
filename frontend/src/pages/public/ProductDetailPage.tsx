@@ -108,7 +108,7 @@ export default function ProductDetailPage() {
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8">
                   <div>
                     <p className="text-sm text-slate-500 font-medium mb-1">Selling Price</p>
-                    <p className="text-5xl font-black text-slate-900">₹{product.selling_price}</p>
+                    <p className="text-5xl font-black text-slate-900">₹ {product.selling_price}</p>
                   </div>
                   
                   <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${
@@ -222,7 +222,7 @@ export default function ProductDetailPage() {
                   <div className="p-4 flex flex-col flex-grow">
                     <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider mb-1">{related.brand_name || "Brand"}</p>
                     <h3 className="font-bold text-slate-900 line-clamp-1 mb-2">{related.name}</h3>
-                    <p className="text-xl font-black text-slate-900 mt-auto">₹{related.selling_price}</p>
+                    <p className="text-xl font-black text-slate-900 mt-auto">₹ {related.selling_price}</p>
                   </div>
                 </Link>
               ))}

@@ -72,7 +72,7 @@ export default function ServicesPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-slate-500 font-medium mb-1">Session Price</p>
-                  <p className="font-extrabold text-2xl text-blue-600">₹{service.price}</p>
+                  <p className="font-extrabold text-2xl text-blue-600">₹ {service.price}</p>
                 </div>
               </div>
               
@@ -105,7 +105,7 @@ export default function ServicesPage() {
                     </div>
                     <div>
                       <p className="text-sm text-blue-300 font-medium mb-1">Total Price</p>
-                      <p className="font-extrabold text-4xl text-yellow-400">₹{pkg.price}</p>
+                      <p className="font-extrabold text-4xl text-yellow-400">₹ {pkg.price}</p>
                     </div>
                   </div>
                   

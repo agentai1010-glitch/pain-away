@@ -269,7 +269,7 @@ export function BookingFlowPage() {
                     >
                       <h3 className="font-semibold">{item.name}</h3>
                       <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{item.description}</p>
-                      <div className="text-lg font-bold text-primary">₹{item.price}</div>
+                      <div className="text-lg font-bold text-primary">₹ {item.price}</div>
                     </div>
                   ))}
                 </div>
@@ -339,7 +339,7 @@ export function BookingFlowPage() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-muted-foreground mb-1">Total</p>
-                    <p className="font-bold text-lg">₹{catalogItem?.price || 0}</p>
+                    <p className="font-bold text-lg">₹ {catalogItem?.price || 0}</p>
                   </div>
                 </div>
                 
@@ -352,11 +352,11 @@ export function BookingFlowPage() {
               <div className="space-y-3 px-2">
                 <div className="flex justify-between items-center py-2 border-b border-dashed">
                   <span className="font-medium text-muted-foreground">Advance Amount Required</span>
-                  <span className="text-2xl font-bold text-primary">₹{catalogItem ? Math.floor(catalogItem.price * 0.2) || 200 : 0}</span>
+                  <span className="text-2xl font-bold text-primary">₹ {catalogItem ? Math.floor(catalogItem.price * 0.2) || 200 : 0}</span>
                 </div>
                 <div className="flex justify-between items-center py-2 text-muted-foreground text-sm">
                   <span>To be paid at clinic</span>
-                  <span className="font-medium text-foreground">₹{catalogItem ? catalogItem.price - (Math.floor(catalogItem.price * 0.2) || 200) : 0}</span>
+                  <span className="font-medium text-foreground">₹ {catalogItem ? catalogItem.price - (Math.floor(catalogItem.price * 0.2) || 200) : 0}</span>
                 </div>
               </div>
               

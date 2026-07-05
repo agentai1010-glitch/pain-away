@@ -66,15 +66,15 @@ export function PaymentSummaryPage() {
               <div className="pt-4 border-t space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Total Amount</span>
-                  <span>₹{receipt.total_amount}</span>
+                  <span>₹ {receipt.total_amount}</span>
                 </div>
                 <div className="flex justify-between text-sm font-medium text-green-600">
                   <span>Advance Paid</span>
-                  <span>- ₹{receipt.advance_paid}</span>
+                  <span>- ₹ {receipt.advance_paid}</span>
                 </div>
                 <div className="flex justify-between font-bold text-lg pt-2 border-t">
                   <span>Remaining Due</span>
-                  <span>₹{receipt.remaining_amount}</span>
+                  <span>₹ {receipt.remaining_amount}</span>
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@ export function PaymentSummaryPage() {
             </div>
             <div className="text-right">
               <p className="text-sm text-muted-foreground">Total</p>
-              <p className="font-semibold">₹{MOCK_BOOKING_STATE.total_amount}</p>
+              <p className="font-semibold">₹ {MOCK_BOOKING_STATE.total_amount}</p>
             </div>
           </div>
         </div>
@@ -113,11 +113,11 @@ export function PaymentSummaryPage() {
           <div className="space-y-3">
             <div className="flex justify-between items-center py-2 border-b">
               <span className="font-medium">Advance Amount Required</span>
-              <span className="text-xl font-bold text-primary">₹{MOCK_BOOKING_STATE.advance_amount}</span>
+              <span className="text-xl font-bold text-primary">₹ {MOCK_BOOKING_STATE.advance_amount}</span>
             </div>
             <div className="flex justify-between items-center py-2 text-muted-foreground text-sm">
               <span>To be paid at clinic</span>
-              <span>₹{MOCK_BOOKING_STATE.total_amount - MOCK_BOOKING_STATE.advance_amount}</span>
+              <span>₹ {MOCK_BOOKING_STATE.total_amount - MOCK_BOOKING_STATE.advance_amount}</span>
             </div>
           </div>
 
@@ -143,7 +143,7 @@ export function PaymentSummaryPage() {
             ) : (
               <>
                 <CreditCard className="w-5 h-5" />
-                Pay ₹{MOCK_BOOKING_STATE.advance_amount} Now
+                Pay ₹ {MOCK_BOOKING_STATE.advance_amount} Now
               </>
             )}
           </button>

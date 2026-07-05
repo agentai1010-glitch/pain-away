@@ -69,14 +69,14 @@ export default function OrderConfirmationPage() {
                     <p className="font-bold text-slate-800">{item.product_name}</p>
                     <p className="text-sm text-slate-500">Qty: {item.ordered_quantity}</p>
                   </div>
-                  <p className="font-bold text-slate-900">₹{item.line_total.toFixed(2)}</p>
+                  <p className="font-bold text-slate-900">₹ {item.line_total.toFixed(2)}</p>
                 </div>
               ))}
             </div>
 
             <div className="flex justify-between items-center pt-6 border-t border-slate-200">
               <p className="font-bold text-slate-900">Total Amount to Pay</p>
-              <p className="text-2xl font-black text-indigo-700">₹{order.grand_total.toFixed(2)}</p>
+              <p className="text-2xl font-black text-indigo-700">₹ {order.grand_total.toFixed(2)}</p>
             </div>
           </div>
 

@@ -183,7 +183,7 @@ export const CustomerOrderDetailPage: React.FC = () => {
                             <div className="font-medium text-slate-900">{item.product_name}</div>
                             <div className="text-xs text-slate-500">{item.sku}</div>
                           </td>
-                          <td className="px-6 py-4 text-right">₹{item.selling_price.toFixed(2)}</td>
+                          <td className="px-6 py-4 text-right">₹ {item.selling_price.toFixed(2)}</td>
                           <td className="px-6 py-4 text-right font-medium">{item.ordered_quantity}</td>
                           <td className="px-6 py-4 text-right font-medium">
                             <span className={canFulfill ? "text-slate-900" : "text-red-600"}>
@@ -244,15 +244,15 @@ export const CustomerOrderDetailPage: React.FC = () => {
               <div className="p-6 space-y-3">
                 <div className="flex justify-between text-slate-600">
                   <span>Subtotal</span>
-                  <span>₹{orderData.subtotal.toFixed(2)}</span>
+                  <span>₹ {orderData.subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-slate-600 pb-3 border-b border-slate-100">
                   <span>Tax Total</span>
-                  <span>₹{orderData.tax_total.toFixed(2)}</span>
+                  <span>₹ {orderData.tax_total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-bold text-lg text-slate-900 pt-1">
                   <span>Grand Total</span>
-                  <span className="text-[#002b84]">₹{orderData.grand_total.toFixed(2)}</span>
+                  <span className="text-[#002b84]">₹ {orderData.grand_total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

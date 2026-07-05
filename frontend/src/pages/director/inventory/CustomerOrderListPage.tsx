@@ -75,7 +75,7 @@ export const CustomerOrderListPage: React.FC = () => {
                         <div className="font-medium text-slate-900">{order.customer_name}</div>
                         <div className="text-xs text-slate-500">{order.customer_phone}</div>
                       </td>
-                      <td className="px-6 py-4 font-medium text-right">₹{order.grand_total.toFixed(2)}</td>
+                      <td className="px-6 py-4 font-medium text-right">₹ {order.grand_total.toFixed(2)}</td>
                       <td className="px-6 py-4 text-center">{getStatusBadge(order.status)}</td>
                       <td className="px-6 py-4 text-right">
                         <button

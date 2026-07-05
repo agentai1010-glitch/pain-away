@@ -159,7 +159,7 @@ export function RebookPage() {
             </div>
             <div className="space-y-1">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Price</span>
-              <div className="text-slate-900 font-semibold">₹{summary.price}</div>
+              <div className="text-slate-900 font-semibold">₹ {summary.price}</div>
             </div>
             <div className="space-y-1">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Advance Transferred</span>

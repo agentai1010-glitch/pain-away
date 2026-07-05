@@ -80,15 +80,15 @@ export function CheckoutPage() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Total</span>
-                <span className="font-medium">₹{finalBill.total_amount}</span>
+                <span className="font-medium">₹ {finalBill.total_amount}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Advance Paid</span>
-                <span className="font-medium">₹{finalBill.advance_paid}</span>
+                <span className="font-medium">₹ {finalBill.advance_paid}</span>
               </div>
               <div className="flex justify-between items-center pt-4 border-t border-dashed">
                 <span className="font-semibold">Balance Collected</span>
-                <span className="font-bold text-green-600 text-lg">₹{finalBill.balance_paid}</span>
+                <span className="font-bold text-green-600 text-lg">₹ {finalBill.balance_paid}</span>
               </div>
             </div>
             
@@ -129,15 +129,15 @@ export function CheckoutPage() {
             </div>
             <div className="flex justify-between items-center py-3 border-b">
               <span className="text-muted-foreground">Total Amount</span>
-              <span className="font-medium">₹{summary?.total_amount}</span>
+              <span className="font-medium">₹ {summary?.total_amount}</span>
             </div>
             <div className="flex justify-between items-center py-3 border-b">
               <span className="text-muted-foreground">Advance Paid</span>
-              <span className="font-medium">₹{summary?.advance_paid}</span>
+              <span className="font-medium">₹ {summary?.advance_paid}</span>
             </div>
             <div className="flex justify-between items-center py-3">
               <span className="font-semibold text-foreground">Remaining Balance</span>
-              <span className="font-bold text-2xl text-primary">₹{summary?.remaining_amount}</span>
+              <span className="font-bold text-2xl text-primary">₹ {summary?.remaining_amount}</span>
             </div>
           </div>
           

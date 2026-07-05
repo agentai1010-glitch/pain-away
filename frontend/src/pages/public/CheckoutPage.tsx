@@ -208,7 +208,7 @@ export default function CheckoutPage() {
                 <div className="flex-grow">
                   <h3 className="font-bold text-slate-900 line-clamp-2 leading-tight mb-1">{product.name}</h3>
                   <p className="text-sm text-slate-500 mb-2">SKU: {product.sku}</p>
-                  <p className="font-bold text-indigo-700">₹{unitPrice}</p>
+                  <p className="font-bold text-indigo-700">₹ {unitPrice}</p>
                 </div>
               </div>
 
@@ -228,11 +228,11 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between text-slate-600">
                   <span>Subtotal ({quantity} item{quantity > 1 ? 's' : ''})</span>
-                  <span>₹{subtotal.toFixed(2)}</span>
+                  <span>₹ {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-bold text-xl text-slate-900 pt-4 border-t border-slate-100">
                   <span>Total Amount</span>
-                  <span>₹{subtotal.toFixed(2)}</span>
+                  <span>₹ {subtotal.toFixed(2)}</span>
                 </div>
               </div>
 
