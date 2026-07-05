@@ -66,7 +66,7 @@ class AuthService:
 
         # Generate JWT Token
         payload = {
-            "sub": user.id,
+            "sub": str(user.id),
             "role": "patient",
             "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7)
         }
@@ -75,6 +75,6 @@ class AuthService:
         return TokenResponse(
             access_token=token,
             token_type="bearer",
-            user_id=user.id,
-            patient_id=user.patient_id
+            user_id=str(user.id),
+            patient_id=str(user.patient_id) if user.patient_id else None
         )
