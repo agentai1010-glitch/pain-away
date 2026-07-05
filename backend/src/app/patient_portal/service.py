@@ -8,7 +8,7 @@ from app.patient.models import PatientModel
 from app.scheduling.models import AppointmentModel
 from app.scheduling.domain import AppointmentStatus
 from app.customer_order.models import CustomerOrderModel, CustomerOrderItemModel
-from app.catalog.models import ProductModel
+from app.product.models import ProductModel
 from app.billing.models import BillingDocumentModel, BillingDocumentType, BookingReceiptModel, FinalBillModel
 from sqlalchemy.orm import selectinload
 
