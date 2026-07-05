@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useProducts, useActivateProduct, useDeactivateProduct } from "@/services/product";
-import { Plus, Search, Package, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { Plus, Search, Package, Loader2 } from "lucide-react";
 import DirectorLayout from "../DirectorLayout";
 
 export function ProductListPage() {
