@@ -27,6 +27,8 @@ export interface ProductCreate {
   cost_price: number;
   tax_rate: number;
   image_url?: string;
+  category_id?: string | null;
+  brand_id?: string | null;
 }
 
 export type ProductUpdate = Partial<ProductCreate> & { is_active?: boolean };

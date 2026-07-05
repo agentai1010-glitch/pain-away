@@ -28,6 +28,8 @@ class ProductUpdate(BaseModel):
     cost_price: float | None = Field(None, ge=0)
     tax_rate: float | None = Field(None, ge=0, le=100)
     image_url: str | None = None
+    category_id: uuid.UUID | None = None
+    brand_id: uuid.UUID | None = None
     is_active: bool | None = None
 
 class ProductResponse(ProductBase):

@@ -59,8 +59,8 @@ export function ProductFormPage() {
       cost_price: parseFloat(formData.cost_price) || 0,
       tax_rate: parseFloat(formData.tax_rate) || 0,
       image_url: formData.image_url || undefined,
-      category_id: formData.category_id || undefined,
-      brand_id: formData.brand_id || undefined
+      category_id: formData.category_id || null,
+      brand_id: formData.brand_id || null
     };
 
     if (isEditing && id) {
