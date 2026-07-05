@@ -6,13 +6,15 @@ import {
   useCancelCustomerOrder, 
   useCompleteCustomerOrder 
 } from '@/services/customer_order';
-import { ArrowLeft, CheckCircle, XCircle, PackageCheck, Loader2 } from 'lucide-react';
+import { useInventory } from '@/services/inventory';
+import { ArrowLeft, CheckCircle, XCircle, PackageCheck, Loader2, ShieldCheck, ShieldAlert } from 'lucide-react';
 import DirectorLayout from '../DirectorLayout';
 
 export const CustomerOrderDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   
   const { data: order, isLoading } = useCustomerOrder(id || '');
+  const { data: inventoryList = [], isLoading: isInvLoading } = useInventory();
   
   const confirmMutation = useConfirmCustomerOrder();
   const cancelMutation = useCancelCustomerOrder();
@@ -24,8 +26,8 @@ export const CustomerOrderDetailPage: React.FC = () => {
     if (!order) return;
     
     const confirmMessage = {
-      confirm: 'Are you sure you want to confirm this order? It will become immutable.',
-      cancel: 'Are you sure you want to cancel this order?',
+      confirm: 'Confirming this order will permanently reserve the required stock. Proceed?',
+      cancel: 'Cancelling this order will release any reserved stock. Proceed?',
       complete: 'Mark this order as completed?'
     };
     
@@ -35,9 +37,9 @@ export const CustomerOrderDetailPage: React.FC = () => {
       if (action === 'confirm') await confirmMutation.mutateAsync(order.id);
       else if (action === 'cancel') await cancelMutation.mutateAsync(order.id);
       else if (action === 'complete') await completeMutation.mutateAsync(order.id);
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Failed to ${action} order`, error);
-      alert(`Failed to ${action} order`);
+      alert(error?.response?.data?.detail || `Failed to ${action} order`);
     }
   };
 
@@ -55,7 +57,7 @@ export const CustomerOrderDetailPage: React.FC = () => {
     );
   };
 
-  if (isLoading || !order) {
+  if (isLoading || isInvLoading || !order) {
     return (
       <DirectorLayout>
         <div className="p-12 text-center">
@@ -66,8 +68,8 @@ export const CustomerOrderDetailPage: React.FC = () => {
     );
   }
 
-  // Handle potential nested data structure from apiClient
   const orderData = (order as any).data || order;
+  const isReserved = orderData.status === 'CONFIRMED' || orderData.status === 'COMPLETED';
 
   return (
     <DirectorLayout>
@@ -100,7 +102,7 @@ export const CustomerOrderDetailPage: React.FC = () => {
                   className="flex items-center gap-2 bg-[#002b84] text-white px-4 py-2 rounded-xl font-medium hover:bg-blue-900 transition-colors disabled:opacity-50"
                 >
                   <CheckCircle className="w-4 h-4" />
-                  Confirm Order
+                  Confirm & Reserve
                 </button>
                 <button 
                   onClick={() => handleStatusUpdate('cancel')} 
@@ -129,7 +131,7 @@ export const CustomerOrderDetailPage: React.FC = () => {
                   className="flex items-center gap-2 bg-white text-red-600 border border-red-200 px-4 py-2 rounded-xl font-medium hover:bg-red-50 transition-colors disabled:opacity-50"
                 >
                   <XCircle className="w-4 h-4" />
-                  Cancel
+                  Cancel & Release
                 </button>
               </>
             )}
@@ -139,33 +141,69 @@ export const CustomerOrderDetailPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-              <div className="p-6 border-b border-slate-100">
-                <h3 className="text-lg font-medium text-slate-900">Order Items</h3>
-                <p className="text-sm text-slate-500 mt-1">Immutable product snapshots captured at time of order creation</p>
+              <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-medium text-slate-900">Order Items & Reservation Summary</h3>
+                  <p className="text-sm text-slate-500 mt-1">Immutable product snapshots and real-time inventory allocation</p>
+                </div>
+                {isReserved ? (
+                  <div className="flex items-center gap-2 text-green-700 bg-green-50 px-3 py-1.5 rounded-lg text-sm font-medium border border-green-200">
+                    <ShieldCheck className="w-4 h-4" /> Stock Reserved
+                  </div>
+                ) : orderData.status === 'CANCELLED' ? (
+                  <div className="flex items-center gap-2 text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg text-sm font-medium border border-slate-200">
+                    <ShieldAlert className="w-4 h-4" /> Reservation Released
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg text-sm font-medium border border-amber-200">
+                    <ShieldAlert className="w-4 h-4" /> Pending Reservation
+                  </div>
+                )}
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
                   <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
                     <tr>
                       <th className="px-6 py-3">Product</th>
-                      <th className="px-6 py-3">SKU</th>
                       <th className="px-6 py-3 text-right">Price</th>
-                      <th className="px-6 py-3 text-right">Tax Rate</th>
-                      <th className="px-6 py-3 text-right">Quantity</th>
-                      <th className="px-6 py-3 text-right">Line Total</th>
+                      <th className="px-6 py-3 text-right">Order Qty</th>
+                      <th className="px-6 py-3 text-right">Avail Qty</th>
+                      <th className="px-6 py-3 text-center">Reservation</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {orderData.items.map((item: any) => (
-                      <tr key={item.id} className="hover:bg-slate-50">
-                        <td className="px-6 py-4 font-medium text-slate-900">{item.product_name}</td>
-                        <td className="px-6 py-4 text-slate-500">{item.sku}</td>
-                        <td className="px-6 py-4 text-right">₹{item.selling_price.toFixed(2)}</td>
-                        <td className="px-6 py-4 text-right">{item.tax_rate}%</td>
-                        <td className="px-6 py-4 text-right font-medium">{item.ordered_quantity}</td>
-                        <td className="px-6 py-4 text-right font-medium text-[#002b84]">₹{item.line_total.toFixed(2)}</td>
-                      </tr>
-                    ))}
+                    {orderData.items.map((item: any) => {
+                      const inv = inventoryList.find((i: any) => i.product_id === item.product_id);
+                      const avail = inv ? inv.available_quantity : 0;
+                      const canFulfill = isReserved || avail >= item.ordered_quantity;
+                      
+                      return (
+                        <tr key={item.id} className="hover:bg-slate-50">
+                          <td className="px-6 py-4">
+                            <div className="font-medium text-slate-900">{item.product_name}</div>
+                            <div className="text-xs text-slate-500">{item.sku}</div>
+                          </td>
+                          <td className="px-6 py-4 text-right">₹{item.selling_price.toFixed(2)}</td>
+                          <td className="px-6 py-4 text-right font-medium">{item.ordered_quantity}</td>
+                          <td className="px-6 py-4 text-right font-medium">
+                            <span className={canFulfill ? "text-slate-900" : "text-red-600"}>
+                              {avail}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-center">
+                            {isReserved ? (
+                              <span className="inline-block px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded">Active</span>
+                            ) : orderData.status === 'CANCELLED' ? (
+                              <span className="inline-block px-2 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded">Released</span>
+                            ) : canFulfill ? (
+                              <span className="inline-block px-2 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded">Pending</span>
+                            ) : (
+                              <span className="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded">Shortage</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

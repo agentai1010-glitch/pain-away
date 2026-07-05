@@ -43,19 +43,24 @@ async def update_customer_order(
 ):
     return await service.update_order(order_id, data)
 
+from app.orchestration.reservation_service import InventoryReservationOrchestrator
+
+def get_reservation_orchestrator(db: AsyncSession = Depends(get_db)) -> InventoryReservationOrchestrator:
+    return InventoryReservationOrchestrator(db)
+
 @router.post("/{order_id}/confirm", response_model=CustomerOrderResponse)
 async def confirm_customer_order(
     order_id: UUID,
-    service: CustomerOrderService = Depends(get_customer_order_service)
+    orchestrator: InventoryReservationOrchestrator = Depends(get_reservation_orchestrator)
 ):
-    return await service.update_status(order_id, OrderStatusEnum.CONFIRMED)
+    return await orchestrator.confirm_order(order_id)
 
 @router.post("/{order_id}/cancel", response_model=CustomerOrderResponse)
 async def cancel_customer_order(
     order_id: UUID,
-    service: CustomerOrderService = Depends(get_customer_order_service)
+    orchestrator: InventoryReservationOrchestrator = Depends(get_reservation_orchestrator)
 ):
-    return await service.update_status(order_id, OrderStatusEnum.CANCELLED)
+    return await orchestrator.cancel_order(order_id)
 
 @router.post("/{order_id}/complete", response_model=CustomerOrderResponse)
 async def complete_customer_order(
