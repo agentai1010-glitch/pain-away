@@ -28,6 +28,7 @@ from app.inventory.api import router as inventory_router
 from app.stock_movement.api import router as stock_movement_router
 from app.purchase_order.api import router as purchase_order_router
 from app.goods_receiving.api import router as goods_receiving_router
+from app.customer_order.api import router as customer_order_router
 
 
 @asynccontextmanager
