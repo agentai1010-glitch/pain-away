@@ -31,7 +31,7 @@ export default function ServicesPage() {
         {isLoading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map(n => (
-              <div key={n} className="bg-white rounded-3xl p-8 border border-slate-100 h-72 animate-pulse flex flex-col justify-between">
+              <div key={n} className="bg-white rounded-3xl p-8 border border-slate-100 min-h-[18rem] h-auto animate-pulse flex flex-col justify-between">
                 <div>
                   <div className="w-16 h-16 bg-slate-200 rounded-2xl mb-6"></div>
                   <div className="h-6 bg-slate-200 rounded w-3/4 mb-4"></div>

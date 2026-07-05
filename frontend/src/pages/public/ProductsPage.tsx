@@ -162,7 +162,7 @@ export default function ProductsPage() {
           {isLoading ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
               {[1, 2, 3, 4, 5, 6].map((n) => (
-                <div key={n} className="bg-white rounded-3xl p-6 border border-slate-100 h-80 animate-pulse flex flex-col">
+                <div key={n} className="bg-white rounded-3xl p-6 border border-slate-100 min-h-[20rem] h-auto animate-pulse flex flex-col">
                   <div className="w-full h-40 bg-slate-100 rounded-2xl mb-4"></div>
                   <div className="h-5 bg-slate-200 rounded w-3/4 mb-3"></div>
                   <div className="h-4 bg-slate-200 rounded w-1/2 mb-4"></div>
