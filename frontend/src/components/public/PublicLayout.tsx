@@ -30,9 +30,9 @@ export default function PublicLayout() {
     <div className="font-sans antialiased min-h-screen bg-white">
       {/* ═══ NAVBAR ═══ */}
       <nav className={`landing-nav ${scrolled ? "scrolled" : ""}`}>
-        <div className="w-full h-16 px-8 md:px-12 lg:px-24 flex items-center justify-between relative">
+        <div className="w-full h-16 px-8 md:px-12 lg:px-24 flex items-center justify-end relative">
           {/* Logo */}
-          <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 z-[110]">
+          <Link to="/" onClick={() => setMobileMenuOpen(false)} className="absolute left-8 md:left-12 lg:left-24 top-0 flex items-center gap-2 z-[110]">
             <img 
               src="/images/logo-white.png" 
               alt="Pain Away" 
