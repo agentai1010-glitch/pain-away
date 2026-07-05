@@ -47,7 +47,7 @@ export default function SignInPage() {
       localStorage.setItem("patient_id", data.patient_id || "");
       // Dispatch a custom event so the layout can update
       window.dispatchEvent(new Event("patient_auth_changed"));
-      navigate("/");
+      navigate("/portal/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.detail || "Invalid OTP");
     } finally {

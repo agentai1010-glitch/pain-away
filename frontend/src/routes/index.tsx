@@ -47,6 +47,7 @@ import CheckoutPagePublic from "@/pages/public/CheckoutPage";
 import OrderConfirmationPage from "@/pages/public/OrderConfirmationPage";
 import SignInPage from "@/pages/public/SignInPage";
 import ProfilePage from "@/pages/public/ProfilePage";
+import DashboardPage from "@/pages/public/portal/DashboardPage";
 
 /**
  * Application route definitions.
@@ -133,6 +134,10 @@ function AppRoutes() {
         <Route path="checkout/success/:id" element={<OrderConfirmationPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        
+        {/* Patient Portal Protected Routes */}
+        <Route path="/portal/dashboard" element={<DashboardPage />} />
+        
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
       {/* Patient Booking Flow */}

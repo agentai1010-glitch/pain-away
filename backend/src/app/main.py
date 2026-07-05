@@ -32,6 +32,7 @@ from app.customer_order.api import router as customer_order_router
 from app.reporting.api import router as reporting_router
 from app.auth.api import router as auth_router
 from app.storefront.api import router as storefront_router
+from app.patient_portal.api import router as patient_portal_router
 
 
 @asynccontextmanager
@@ -107,6 +108,7 @@ def create_app() -> FastAPI:
     application.include_router(reporting_router, prefix="/api/v1")
     application.include_router(auth_router, prefix="/api/v1")
     application.include_router(storefront_router, prefix="/api/v1")
+    application.include_router(patient_portal_router, prefix="/api/v1")
 
     return application
 
