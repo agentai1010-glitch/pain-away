@@ -29,6 +29,7 @@ from app.brand.models import BrandModel # noqa: E402, F401
 from app.supplier.models import SupplierModel # noqa: E402, F401
 from app.warehouse.models import WarehouseModel # noqa: E402, F401
 from app.inventory.models import InventoryModel # noqa: E402, F401
+from app.stock_movement.models import StockMovementModel # noqa: E402, F401
 
 config = context.config
 
