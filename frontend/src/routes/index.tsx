@@ -15,6 +15,8 @@ import ServiceManagementPage from "@/pages/director/ServiceManagementPage";
 import HolidayManagementPage from "@/pages/director/HolidayManagementPage";
 import DirectorPatientWorkspacePage from "@/pages/director/DirectorPatientWorkspacePage";
 import DirectorQueuePage from "@/pages/director/DirectorQueuePage";
+import ProductListPage from "@/pages/director/inventory/ProductListPage";
+import ProductFormPage from "@/pages/director/inventory/ProductFormPage";
 import ClinicPortalLandingPage from "@/pages/internal/ClinicPortalLandingPage";
 import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
@@ -48,6 +50,11 @@ function AppRoutes() {
         <Route path="/director/patient/:id" element={<ProtectedRoute role="director"><DirectorPatientWorkspacePage /></ProtectedRoute>} />
         <Route path="/director/services" element={<ProtectedRoute role="director"><ServiceManagementPage /></ProtectedRoute>} />
         <Route path="/director/holidays" element={<ProtectedRoute role="director"><HolidayManagementPage /></ProtectedRoute>} />
+        
+        {/* Director Inventory & Commerce Routes */}
+        <Route path="/director/inventory/products" element={<ProtectedRoute role="director"><ProductListPage /></ProtectedRoute>} />
+        <Route path="/director/inventory/products/new" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
+        <Route path="/director/inventory/products/:id/edit" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
 
         {/* Catch-all route to redirect unknowns to the internal portal landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -90,6 +97,11 @@ function AppRoutes() {
           <Route path="/director/patient/:id" element={<ProtectedRoute role="director"><DirectorPatientWorkspacePage /></ProtectedRoute>} />
           <Route path="/director/services" element={<ProtectedRoute role="director"><ServiceManagementPage /></ProtectedRoute>} />
           <Route path="/director/holidays" element={<ProtectedRoute role="director"><HolidayManagementPage /></ProtectedRoute>} />
+          
+          {/* Director Inventory & Commerce Routes */}
+          <Route path="/director/inventory/products" element={<ProtectedRoute role="director"><ProductListPage /></ProtectedRoute>} />
+          <Route path="/director/inventory/products/new" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
+          <Route path="/director/inventory/products/:id/edit" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
         </>
       )}
 

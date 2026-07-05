@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260705-CBC3BC
+Date: 2026-07-05
+Time: 04:31:55
+---------------------------------
+Patient Name: Karan Johar
+Service: Back Pain Therapy
+---------------------------------
+Total Amount: Rs. 1000
+Advance Paid: Rs. 200
+Remaining Balance: Rs. 800
+=================================

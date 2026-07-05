@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260705-83045D
+Date: 2026-07-05
+Time: 04:30:38
+---------------------------------
+Patient Name: Jitesh  Mishra
+Service: Complete Back & Neck Recovery Package
+---------------------------------
+Total Amount: Rs. 5000
+Advance Paid: Rs. 1000
+Remaining Balance: Rs. 4000
+=================================

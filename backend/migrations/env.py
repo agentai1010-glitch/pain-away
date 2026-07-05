@@ -23,6 +23,7 @@ from app.catalog.models import CatalogItemModel  # noqa: E402, F401
 from app.scheduling.models import AppointmentModel  # noqa: E402, F401
 from app.patient.models import PatientModel  # noqa: E402, F401
 from app.billing.models import PaymentModel, BookingReceiptModel  # noqa: E402, F401
+from app.product.models import ProductModel # noqa: E402, F401
 
 config = context.config
 
