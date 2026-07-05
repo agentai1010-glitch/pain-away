@@ -13,7 +13,7 @@ export const CustomerOrderFormPage: React.FC = () => {
   const [formData, setFormData] = useState({
     customer_name: '',
     customer_phone: '',
-    order_date: new Date().toISOString().split('T')[0] as string,
+    order_date: (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })() as string,
     notes: ''
   });
 

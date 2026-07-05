@@ -18,7 +18,7 @@ export function ReceiveGoodsFormPage() {
   const { data: receipts } = useGoodsReceipts();
   const createMutation = useCreateGoodsReceipt();
 
-  const [receivedDate, setReceivedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [receivedDate, setReceivedDate] = useState((() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })());
   const [notes, setNotes] = useState("");
   
   // item id -> receiving quantity
@@ -105,7 +105,7 @@ export function ReceiveGoodsFormPage() {
       po_id: po.id,
       supplier_id: po.supplier_id,
       warehouse_id: po.warehouse_id,
-      received_date: receivedDate || new Date().toISOString().split('T')[0],
+      received_date: receivedDate || (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })(),
       notes: notes || null,
       items: itemsToReceive,
       created_by: "Director"

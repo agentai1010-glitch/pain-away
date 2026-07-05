@@ -31,7 +31,7 @@ export function PurchaseOrderFormPage() {
   const [formData, setFormData] = useState<Partial<PurchaseOrderCreate>>({
     supplier_id: "",
     warehouse_id: "",
-    order_date: new Date().toISOString().split('T')[0],
+    order_date: (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })(),
     expected_delivery_date: "",
     notes: "",
     items: [],
