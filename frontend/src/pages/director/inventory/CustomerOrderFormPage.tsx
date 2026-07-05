@@ -211,10 +211,10 @@ export const CustomerOrderFormPage: React.FC = () => {
                         </div>
                         
                         <div className="space-y-1 w-32 px-2 py-2">
-                          <div className="text-xs text-slate-500">Price: ₹ {price.toFixed(2)}</div>
+                          <div className="text-xs text-slate-500">Price: ₹{price.toFixed(2)}</div>
                           <div className="text-xs text-slate-500">Tax: {tax}%</div>
                           <div className="text-sm font-medium text-slate-900 border-t mt-1 pt-1">
-                            Total: ₹ {totalWithTax.toFixed(2)}
+                            Total: ₹{totalWithTax.toFixed(2)}
                           </div>
                         </div>
                         
@@ -234,7 +234,7 @@ export const CustomerOrderFormPage: React.FC = () => {
               <div className="flex justify-end pt-4 border-t">
                 <div className="text-xl">
                   <span className="text-slate-600 mr-4">Estimated Grand Total:</span>
-                  <span className="font-bold text-slate-900">₹ {calculateTotal().toFixed(2)}</span>
+                  <span className="font-bold text-slate-900">₹{calculateTotal().toFixed(2)}</span>
                 </div>
               </div>
             </div>

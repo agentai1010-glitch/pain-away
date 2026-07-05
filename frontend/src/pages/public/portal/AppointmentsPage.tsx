@@ -163,12 +163,12 @@ export default function AppointmentsPage() {
                 <div className="bg-gray-50 p-4 rounded-lg mt-2">
                   <div className="flex justify-between mb-1">
                     <span className="text-sm text-gray-600">Advance Paid:</span>
-                    <span className="font-medium text-gray-900">₹ {selectedAppt.advance_paid}</span>
+                    <span className="font-medium text-gray-900">₹{selectedAppt.advance_paid}</span>
                   </div>
                   {selectedAppt.remaining_amount !== null && (
                     <div className="flex justify-between text-red-600 font-medium">
                       <span className="text-sm">Balance Due:</span>
-                      <span>₹ {selectedAppt.remaining_amount}</span>
+                      <span>₹{selectedAppt.remaining_amount}</span>
                     </div>
                   )}
                   {selectedAppt.receipt_number && (

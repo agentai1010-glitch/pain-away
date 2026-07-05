@@ -218,7 +218,7 @@ export default function ProductsPage() {
                     
                     <div className="flex items-end justify-between mt-auto pt-4 border-t border-slate-50">
                       <div>
-                        <p className="text-2xl font-extrabold text-slate-900">₹ {product.selling_price}</p>
+                        <p className="text-2xl font-extrabold text-slate-900">₹{product.selling_price}</p>
                       </div>
                       <div className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
                         product.available_quantity > 0 

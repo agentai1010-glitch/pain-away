@@ -398,15 +398,15 @@ export function PurchaseOrderFormPage() {
               <div className="w-full sm:w-1/2 md:w-1/3 ml-auto space-y-3">
                 <div className="flex justify-between text-sm text-slate-600">
                   <span>Subtotal</span>
-                  <span>₹ {totals.sub.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
+                  <span>₹{totals.sub.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
                 </div>
                 <div className="flex justify-between text-sm text-slate-600">
                   <span>Tax</span>
-                  <span>₹ {totals.tax.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
+                  <span>₹{totals.tax.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
                 </div>
                 <div className="pt-3 border-t flex justify-between font-bold text-lg text-slate-900">
                   <span>Grand Total</span>
-                  <span>₹ {totals.grand.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
+                  <span>₹{totals.grand.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
                 </div>
               </div>
             </div>

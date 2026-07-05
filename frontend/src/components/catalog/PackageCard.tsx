@@ -16,7 +16,7 @@ export function PackageCard({ item }: PackageCardProps) {
           </span>
         </div>
         <div className="text-lg font-bold">
-          ₹ {item.price}
+          ₹{item.price}
         </div>
       </div>
       

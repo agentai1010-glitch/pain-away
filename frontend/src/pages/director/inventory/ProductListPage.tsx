@@ -76,7 +76,7 @@ export function ProductListPage() {
                     <tr key={product.id} className="hover:bg-slate-50">
                       <td className="px-6 py-4 font-medium text-slate-900">{product.name}</td>
                       <td className="px-6 py-4 text-slate-500">{product.sku}</td>
-                      <td className="px-6 py-4 text-right">₹ {product.selling_price.toFixed(2)}</td>
+                      <td className="px-6 py-4 text-right">₹{product.selling_price.toFixed(2)}</td>
                       <td className="px-6 py-4 text-center">
                         <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           product.is_active ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'

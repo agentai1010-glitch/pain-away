@@ -108,7 +108,7 @@ export default function OrdersPage() {
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${order.status === 'CONFIRMED' || order.status === 'DRAFT' ? 'bg-blue-100 text-blue-800' : order.status === 'COMPLETED' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                           {order.status}
                         </span>
-                        <span className="text-sm font-medium text-gray-900">₹ {order.grand_total}</span>
+                        <span className="text-sm font-medium text-gray-900">₹{order.grand_total}</span>
                         <span className="text-xs text-gray-400">({totalItems} items)</span>
                       </div>
                     </div>
@@ -167,8 +167,8 @@ export default function OrdersPage() {
                     <div className="flex-1">
                       <p className="font-semibold text-gray-900">{item.product_name}</p>
                       <div className="flex justify-between mt-1 text-sm text-gray-600">
-                        <span>₹ {item.selling_price} &times; {item.ordered_quantity}</span>
-                        <span className="font-medium text-gray-900">₹ {item.line_total}</span>
+                        <span>₹{item.selling_price} &times; {item.ordered_quantity}</span>
+                        <span className="font-medium text-gray-900">₹{item.line_total}</span>
                       </div>
                     </div>
                   </li>
@@ -177,7 +177,7 @@ export default function OrdersPage() {
               
               <div className="border-t border-gray-100 pt-4 flex justify-between items-center text-lg font-bold">
                 <span>Grand Total</span>
-                <span>₹ {selectedOrder.grand_total}</span>
+                <span>₹{selectedOrder.grand_total}</span>
               </div>
             </div>
             

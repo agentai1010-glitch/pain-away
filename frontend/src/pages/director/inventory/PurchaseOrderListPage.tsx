@@ -106,7 +106,7 @@ export function PurchaseOrderListPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right font-bold">
-                        ₹ {po.grand_total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+                        ₹{po.grand_total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4 text-right">
                         <Link 

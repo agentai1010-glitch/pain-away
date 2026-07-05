@@ -67,7 +67,7 @@ export default function ServiceDetailPage() {
               <div className="w-px h-10 bg-slate-200 hidden md:block"></div>
               <div>
                 <p className="text-sm text-slate-500 font-semibold mb-1">Price</p>
-                <p className="text-3xl font-extrabold text-blue-600">₹ {service.price}</p>
+                <p className="text-3xl font-extrabold text-blue-600">₹{service.price}</p>
               </div>
               
               <Link 
