@@ -8,19 +8,19 @@ from .schemas import CustomerOrderCreate, CustomerOrderResponse, CustomerOrderUp
 from .service import CustomerOrderService
 from .models import OrderStatusEnum
 
-router = APIRouter()
+router = APIRouter(prefix="/customer-orders", tags=["Customer Orders"])
 
 def get_customer_order_service(db: AsyncSession = Depends(get_db)) -> CustomerOrderService:
     return CustomerOrderService(db)
 
-@router.post("/", response_model=CustomerOrderResponse, status_code=201)
+@router.post("", response_model=CustomerOrderResponse, status_code=201)
 async def create_customer_order(
     data: CustomerOrderCreate,
     service: CustomerOrderService = Depends(get_customer_order_service)
 ):
     return await service.create_order(data)
 
-@router.get("/", response_model=List[CustomerOrderResponse])
+@router.get("", response_model=List[CustomerOrderResponse])
 async def list_customer_orders(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
