@@ -33,6 +33,7 @@ import GoodsReceivingListPage from "@/pages/director/inventory/GoodsReceivingLis
 import { CustomerOrderListPage } from '@/pages/director/inventory/CustomerOrderListPage';
 import { CustomerOrderFormPage } from '@/pages/director/inventory/CustomerOrderFormPage';
 import { CustomerOrderDetailPage } from '@/pages/director/inventory/CustomerOrderDetailPage';
+import { ReportsPage } from '@/pages/director/inventory/ReportsPage';
 import ReceiveGoodsFormPage from "@/pages/director/inventory/ReceiveGoodsFormPage";
 import ClinicPortalLandingPage from "@/pages/internal/ClinicPortalLandingPage";
 import DirectorLoginPage from "@/pages/director/DirectorLoginPage";
@@ -69,6 +70,7 @@ function AppRoutes() {
         <Route path="/director/holidays" element={<ProtectedRoute role="director"><HolidayManagementPage /></ProtectedRoute>} />
         
         {/* Director Inventory & Commerce Routes */}
+        <Route path="/director/inventory/reports" element={<ProtectedRoute role="director"><ReportsPage /></ProtectedRoute>} />
         <Route path="/director/inventory/products" element={<ProtectedRoute role="director"><ProductListPage /></ProtectedRoute>} />
         <Route path="/director/inventory/products/new" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
         <Route path="/director/inventory/products/:id/edit" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
@@ -146,6 +148,7 @@ function AppRoutes() {
           <Route path="/director/holidays" element={<ProtectedRoute role="director"><HolidayManagementPage /></ProtectedRoute>} />
           
           {/* Director Inventory & Commerce Routes */}
+          <Route path="/director/inventory/reports" element={<ProtectedRoute role="director"><ReportsPage /></ProtectedRoute>} />
           <Route path="/director/inventory/products" element={<ProtectedRoute role="director"><ProductListPage /></ProtectedRoute>} />
           <Route path="/director/inventory/products/new" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
           <Route path="/director/inventory/products/:id/edit" element={<ProtectedRoute role="director"><ProductFormPage /></ProtectedRoute>} />
