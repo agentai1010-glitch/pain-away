@@ -46,7 +46,7 @@ export default function PublicLayout() {
             <img 
               src="/images/logo-white.png" 
               alt="Pain Away" 
-              className={`h-[12.5rem] w-auto transition-all duration-300 ${!scrolled && location.pathname === '/' ? 'brightness-0 invert drop-shadow-2xl' : 'drop-shadow-none scale-[0.6] -ml-8'}`} 
+              className={`h-[12.5rem] w-auto transition-all duration-300 ${!scrolled && (location.pathname === '/' || location.pathname.startsWith('/products')) ? 'brightness-0 invert drop-shadow-2xl' : 'drop-shadow-none scale-[0.6] -ml-8'}`} 
             />
           </Link>
 
@@ -143,7 +143,7 @@ export default function PublicLayout() {
       </div>
 
       {/* Page Content */}
-      <main className={location.pathname === '/' ? '' : 'pt-24 px-8 md:px-12 lg:px-24'}>
+      <main className={location.pathname === '/' || location.pathname.startsWith('/products') ? '' : 'pt-24 px-8 md:px-12 lg:px-24'}>
         <Outlet />
       </main>
     </div>
