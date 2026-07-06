@@ -3,9 +3,11 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
+import os
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.config.settings import settings
 from app.core.exceptions import register_exception_handlers
@@ -47,6 +49,11 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
         environment=settings.APP_ENV,
         timezone=settings.TIMEZONE,
     )
+    
+    # Ensure uploads directory exists
+    uploads_dir = os.path.join(os.path.dirname(__file__), "..", "data", "uploads")
+    os.makedirs(uploads_dir, exist_ok=True)
+    
     yield
     # ── Shutdown ──
     logger.info("Shutting down application")
@@ -76,6 +83,10 @@ def create_app() -> FastAPI:
 
     # Global exception handlers
     register_exception_handlers(application)
+    
+    # Mount static files
+    uploads_dir = os.path.join(os.path.dirname(__file__), "..", "data", "uploads")
+    application.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
     # ── System routes ──
 

@@ -198,9 +198,13 @@ export default function CheckoutPage() {
               <h2 className="text-xl font-bold text-slate-900 mb-6">Order Summary</h2>
               
               <div className="flex gap-4 mb-6 pb-6 border-b border-slate-100">
-                <div className="w-20 h-20 bg-slate-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-20 h-20 bg-white rounded-xl border flex items-center justify-center shrink-0">
                   {product.image_url ? (
-                    <img src={product.image_url} alt={product.name} className="w-16 h-16 object-contain mix-blend-multiply" />
+                    <img 
+                      src={product.image_url.startsWith('http') ? product.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${product.image_url}`} 
+                      alt={product.name} 
+                      className="w-16 h-16 object-contain mix-blend-multiply" 
+                    />
                   ) : (
                     <ShoppingBag className="w-8 h-8 text-slate-300" />
                   )}

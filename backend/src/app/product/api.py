@@ -1,8 +1,10 @@
 """Product — API Routes"""
 
+import os
+import shutil
 import uuid
 from typing import Sequence
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.shared.dependencies import get_db
 from app.product.schemas import ProductResponse, ProductCreate, ProductUpdate
@@ -36,6 +38,27 @@ async def create_product(
     """Create a new product."""
     service = ProductService(db)
     return await service.create_product(data)
+
+@router.post("/upload-image")
+async def upload_image(file: UploadFile = File(...)):
+    """Upload a product image and return its URL."""
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="No filename provided")
+        
+    ext = os.path.splitext(file.filename)[1]
+    if not ext:
+        ext = ".jpg"  # default extension if none
+        
+    unique_filename = f"{uuid.uuid4().hex}{ext}"
+    uploads_dir = os.path.join(os.path.dirname(__file__), "..", "..", "data", "uploads")
+    os.makedirs(uploads_dir, exist_ok=True)
+    
+    file_path = os.path.join(uploads_dir, unique_filename)
+    
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+        
+    return {"image_url": f"/uploads/{unique_filename}"}
 
 @router.patch("/{product_id}", response_model=ProductResponse)
 async def update_product(

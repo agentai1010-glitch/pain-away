@@ -61,7 +61,11 @@ export default function ProductDetailPage() {
             {/* Image Section */}
             <div className="bg-slate-50 p-12 flex items-center justify-center relative min-h-[400px]">
               {product.image_url ? (
-                <img src={product.image_url} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
+                <img 
+                  src={product.image_url.startsWith('http') ? product.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${product.image_url}`} 
+                  alt={product.name} 
+                  className="w-full h-full object-contain mix-blend-multiply" 
+                />
               ) : (
                 <ShoppingBag className="w-32 h-32 text-slate-200" />
               )}
@@ -214,7 +218,11 @@ export default function ProductDetailPage() {
                 >
                   <div className="h-40 bg-slate-50 relative p-4 flex items-center justify-center">
                     {related.image_url ? (
-                      <img src={related.image_url} alt={related.name} className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110" />
+                      <img 
+                        src={related.image_url.startsWith('http') ? related.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${related.image_url}`} 
+                        alt={related.name} 
+                        className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110" 
+                      />
                     ) : (
                       <ShoppingBag className="w-12 h-12 text-slate-200" />
                     )}

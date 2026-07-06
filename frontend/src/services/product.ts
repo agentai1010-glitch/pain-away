@@ -89,3 +89,35 @@ export function useDeactivateProduct() {
     },
   });
 }
+
+export function useUploadProductImage() {
+  return useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000");
+      const url = `${API_BASE_URL}/api/v1/products/upload-image`;
+      
+      const token = localStorage.getItem("director_token");
+      const headers: HeadersInit = {
+        "ngrok-skip-browser-warning": "69420",
+      };
+      if (token) {
+        (headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
+      }
+      
+      const response = await fetch(url, {
+        method: "POST",
+        body: formData,
+        headers,
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+      
+      return response.json() as Promise<{ image_url: string }>;
+    }
+  });
+}

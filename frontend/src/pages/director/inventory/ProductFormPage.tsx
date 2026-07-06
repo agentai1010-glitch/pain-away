@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateProduct, useUpdateProduct, useProduct } from "@/services/product";
+import { useCreateProduct, useUpdateProduct, useProduct, useUploadProductImage } from "@/services/product";
 import { useCategories } from "@/services/category";
 import { useBrands } from "@/services/brand";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
+import { ArrowLeft, Loader2, Save, Upload, Image as ImageIcon, X } from "lucide-react";
 import DirectorLayout from "../DirectorLayout";
 import { Link } from "react-router-dom";
 
@@ -18,8 +18,10 @@ export function ProductFormPage() {
 
   const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
   const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
+  const { mutate: uploadImage, isPending: isUploadingImage } = useUploadProductImage();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const isPending = isCreating || isUpdating;
+  const isPending = isCreating || isUpdating || isUploadingImage;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -98,6 +100,63 @@ export function ProductFormPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white border rounded-2xl p-6 shadow-sm space-y-6">
+          <div className="space-y-4 pb-6 border-b">
+            <h3 className="font-semibold text-slate-900 flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-slate-400" />
+              Product Image
+            </h3>
+            <div className="flex items-start gap-6">
+              {formData.image_url ? (
+                <div className="relative w-32 h-32 rounded-xl border bg-slate-50 overflow-hidden shrink-0 group">
+                  <img 
+                    src={formData.image_url.startsWith('http') ? formData.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${formData.image_url}`} 
+                    alt="Product preview" 
+                    className="w-full h-full object-cover mix-blend-multiply" 
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setFormData(p => ({ ...p, image_url: "" }))}
+                    className="absolute top-1 right-1 bg-white/80 p-1 rounded-full text-red-600 hover:bg-white shadow-sm opacity-0 group-hover:opacity-100 transition"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="w-32 h-32 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 flex items-center justify-center shrink-0">
+                  <ImageIcon className="w-8 h-8 text-slate-300" />
+                </div>
+              )}
+              <div className="flex-1 space-y-2">
+                <input 
+                  type="file" 
+                  ref={fileInputRef}
+                  className="hidden" 
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      uploadImage(file, {
+                        onSuccess: (res) => {
+                          setFormData(p => ({ ...p, image_url: res.image_url }));
+                        }
+                      });
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploadingImage}
+                  className="px-4 py-2 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition text-sm flex items-center gap-2"
+                >
+                  {isUploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  {isUploadingImage ? "Uploading..." : "Upload Image"}
+                </button>
+                <p className="text-xs text-slate-500">Recommended size: 500x500px or larger. PNG or JPG format.</p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">Product Name *</label>

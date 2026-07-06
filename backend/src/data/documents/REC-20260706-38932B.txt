@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260706-38932B
+Date: 2026-07-06
+Time: 05:54:14
+---------------------------------
+Patient Name: Ketan Agarwal
+Service: Back Pain Therapy
+---------------------------------
+Total Amount: Rs. 1000
+Advance Paid: Rs. 200
+Remaining Balance: Rs. 800
+=================================

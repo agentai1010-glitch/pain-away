@@ -194,7 +194,11 @@ export default function ProductsPage() {
                 >
                   <div className="h-48 bg-slate-50 relative p-6 flex items-center justify-center">
                     {product.image_url ? (
-                      <img src={product.image_url} alt={product.name} className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110" />
+                      <img 
+                        src={product.image_url.startsWith('http') ? product.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${product.image_url}`} 
+                        alt={product.name} 
+                        className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110" 
+                      />
                     ) : (
                       <ShoppingBag className="w-16 h-16 text-slate-200" />
                     )}
