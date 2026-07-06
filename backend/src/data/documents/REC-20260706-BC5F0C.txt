@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260706-BC5F0C
+Date: 2026-07-06
+Time: 22:36:41
+---------------------------------
+Patient Name: Omkar Bondre 
+Service: Neck & Shoulder Release
+---------------------------------
+Total Amount: Rs. 1200
+Advance Paid: Rs. 240
+Remaining Balance: Rs. 960
+=================================

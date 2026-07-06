@@ -36,7 +36,16 @@ async function request<T>(
     ...options.headers,
   };
 
-  const token = localStorage.getItem("patient_token") || localStorage.getItem("reception_token") || localStorage.getItem("director_token");
+  const path = typeof window !== "undefined" ? window.location.pathname : "";
+  let token: string | null = null;
+  if (path.startsWith("/director")) {
+    token = localStorage.getItem("director_token") || localStorage.getItem("reception_token") || localStorage.getItem("patient_token");
+  } else if (path.startsWith("/reception")) {
+    token = localStorage.getItem("reception_token") || localStorage.getItem("director_token") || localStorage.getItem("patient_token");
+  } else {
+    token = localStorage.getItem("patient_token") || localStorage.getItem("reception_token") || localStorage.getItem("director_token");
+  }
+
   if (token) {
     (headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
   }
