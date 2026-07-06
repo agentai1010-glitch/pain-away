@@ -180,7 +180,8 @@ export function PatientWorkspacePage() {
                             onSuccess: (res) => {
                               setIsCancelConfirmOpen(false);
                               if (res.eligibility_id) {
-                                setRebookingLink(`${window.location.origin}/rebook/${res.eligibility_id}`);
+                                const baseUrl = import.meta.env.VITE_PUBLIC_WEBSITE_URL || window.location.origin;
+                                setRebookingLink(`${baseUrl}/rebook/${res.eligibility_id}`);
                               }
                             }
                           });
@@ -286,7 +287,10 @@ export function PatientWorkspacePage() {
                         </span>
                         {apt.status === 'CANCELLED' && apt.eligibility_id && (
                           <button
-                            onClick={() => setRebookingLink(`${window.location.origin}/rebook/${apt.eligibility_id}`)}
+                            onClick={() => {
+                              const baseUrl = import.meta.env.VITE_PUBLIC_WEBSITE_URL || window.location.origin;
+                              setRebookingLink(`${baseUrl}/rebook/${apt.eligibility_id}`);
+                            }}
                             className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 text-xs font-semibold rounded-lg transition ml-1"
                           >
                             Get Link
