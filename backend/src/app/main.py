@@ -50,10 +50,6 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
         timezone=settings.TIMEZONE,
     )
     
-    # Ensure uploads directory exists
-    uploads_dir = os.path.join(os.path.dirname(__file__), "..", "data", "uploads")
-    os.makedirs(uploads_dir, exist_ok=True)
-    
     yield
     # ── Shutdown ──
     logger.info("Shutting down application")
@@ -86,6 +82,7 @@ def create_app() -> FastAPI:
     
     # Mount static files
     uploads_dir = os.path.join(os.path.dirname(__file__), "..", "data", "uploads")
+    os.makedirs(uploads_dir, exist_ok=True)
     application.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
     # ── System routes ──
