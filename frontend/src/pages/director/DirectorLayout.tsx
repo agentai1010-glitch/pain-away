@@ -1,8 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Settings, User, CalendarX, CalendarClock, Package, Folder, Tags, Truck, Building2, Layers, Activity, ShoppingCart, Receipt, BarChart3 } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Settings, User, CalendarX, CalendarClock, Package, Folder, Tags, Truck, Building2, Layers, Activity, ShoppingCart, Receipt, BarChart3, LogOut } from "lucide-react";
 
 export function DirectorLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Dashboard", href: "/director/dashboard", icon: LayoutDashboard },
@@ -52,16 +53,26 @@ export function DirectorLayout({ children }: { children: React.ReactNode }) {
           </nav>
         </div>
         
-        <div className="p-4 border-t border-slate-800">
+        <div className="p-4 border-t border-slate-800 space-y-2">
           <div className="flex items-center gap-3 px-3 py-2">
             <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
               <User className="w-4 h-4 text-slate-400" />
             </div>
-            <div className="overflow-hidden">
+            <div className="overflow-hidden flex-1">
               <p className="text-sm font-medium text-white truncate">Clinic Director</p>
               <Link to="/" className="text-xs text-slate-500 hover:text-slate-300 truncate">Back to Home</Link>
             </div>
           </div>
+          <button
+            onClick={() => {
+              localStorage.removeItem("director_token");
+              navigate("/director/login");
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
+          >
+            <LogOut className="w-5 h-5 shrink-0" />
+            Sign Out
+          </button>
         </div>
       </aside>
 
