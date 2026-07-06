@@ -250,9 +250,25 @@ class ReceptionService:
     async def cancel_appointment(self, appointment_id):
         """Coordinate appointment cancellation."""
         import uuid
+        from sqlalchemy import select
+        from app.scheduling.models import RebookingEligibilityModel
+        
         if isinstance(appointment_id, str):
             appointment_id = uuid.UUID(appointment_id)
+            
         apt = await self.scheduling_service.cancel_appointment(appointment_id)
+        await self.session.flush()
+        
+        # Fetch the created eligibility token
+        stmt = select(RebookingEligibilityModel).where(RebookingEligibilityModel.appointment_id == apt.id)
+        res = await self.session.execute(stmt)
+        eligibility = res.scalars().first()
+        
         await self.session.commit()
-        return {"status": "SUCCESS", "appointment_id": str(apt.id)}
+        
+        return {
+            "status": "SUCCESS", 
+            "appointment_id": str(apt.id),
+            "eligibility_id": str(eligibility.id) if eligibility else None
+        }
 

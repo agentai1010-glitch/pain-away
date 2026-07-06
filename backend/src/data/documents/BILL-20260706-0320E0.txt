@@ -1,0 +1,14 @@
+=================================
+FINAL BILL
+=================================
+Bill Number: BILL-20260706-0320E0
+Date: 2026-07-06
+Time: 05:16:56
+---------------------------------
+Patient Name: Jay Jadhav
+Service: Advanced Posture Correction
+---------------------------------
+Total Amount: Rs. 2500
+Advance Paid: Rs. 500
+Balance Collected: Rs. 2000
+=================================

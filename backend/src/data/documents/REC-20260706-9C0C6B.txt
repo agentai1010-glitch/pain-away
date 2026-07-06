@@ -1,0 +1,14 @@
+=================================
+BOOKING RECEIPT
+=================================
+Receipt Number: REC-20260706-9C0C6B
+Date: 2026-07-06
+Time: 05:16:15
+---------------------------------
+Patient Name: Jay Jadhav
+Service: Advanced Posture Correction
+---------------------------------
+Total Amount: Rs. 2500
+Advance Paid: Rs. 500
+Remaining Balance: Rs. 2000
+=================================

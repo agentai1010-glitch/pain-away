@@ -9,6 +9,7 @@ export function PatientWorkspacePage() {
   const navigate = useNavigate();
   const { data, isLoading, error } = usePatientWorkspace(id || "");
   const [isCancelConfirmOpen, setIsCancelConfirmOpen] = useState(false);
+  const [rebookingLink, setRebookingLink] = useState<string | null>(null);
   const { mutate: cancelAppointment, isPending: isCancelling } = useCancelAppointment();
 
   // Debug: log the workspace data to verify document IDs
@@ -176,8 +177,11 @@ export function PatientWorkspacePage() {
                       onClick={() => {
                         if (data.active_appointment?.appointment_id) {
                           cancelAppointment(data.active_appointment.appointment_id, {
-                            onSuccess: () => {
+                            onSuccess: (res) => {
                               setIsCancelConfirmOpen(false);
+                              if (res.eligibility_id) {
+                                setRebookingLink(`${window.location.origin}/rebook/${res.eligibility_id}`);
+                              }
                             }
                           });
                         }
@@ -191,6 +195,45 @@ export function PatientWorkspacePage() {
               </div>
             )}
 
+
+            {/* Rebooking Link Modal */}
+            {rebookingLink && (
+              <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="bg-white border rounded-2xl max-w-md w-full p-6 shadow-xl space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-green-100 text-green-700 rounded-full flex items-center justify-center shrink-0">
+                      <FileText className="w-6 h-6" />
+                    </div>
+                    <div className="space-y-1 w-full">
+                      <h3 className="text-lg font-bold text-slate-900">Appointment Cancelled</h3>
+                      <p className="text-sm text-slate-500">
+                        The appointment has been cancelled. Copy the rebooking link below and send it to the patient via WhatsApp or SMS.
+                      </p>
+                      <div className="mt-4 p-3 bg-slate-50 border rounded-xl overflow-hidden text-xs text-slate-600 break-all font-mono">
+                        {rebookingLink}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-3 pt-2">
+                    <button
+                      onClick={() => setRebookingLink(null)}
+                      className="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-200 transition"
+                    >
+                      Close
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(rebookingLink);
+                        alert("Link copied to clipboard!");
+                      }}
+                      className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary/90 transition shadow-sm"
+                    >
+                      Copy Link
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Appointment History */}
             <div className="bg-white border rounded-2xl p-6 shadow-sm flex-1">

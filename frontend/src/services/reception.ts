@@ -87,7 +87,7 @@ export function useCancelAppointment() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (appointmentId: string) => {
-      const response = await apiClient.post<{ status: string; appointment_id: string }>(`/api/v1/reception/appointments/${appointmentId}/cancel`);
+      const response = await apiClient.post<{ status: string; appointment_id: string; eligibility_id: string | null }>(`/api/v1/reception/appointments/${appointmentId}/cancel`);
       return response;
     },
     onSuccess: () => {
