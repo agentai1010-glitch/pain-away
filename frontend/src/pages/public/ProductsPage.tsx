@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useStorefrontProducts, useStorefrontCategories, useStorefrontBrands } from "@/services/storefront";
 import { Search, ShoppingBag, Filter, ArrowUpDown } from "lucide-react";
+import { getImageUrl } from "@/lib/utils";
 
 export default function ProductsPage() {
   const { data: products = [], isLoading: productsLoading } = useStorefrontProducts();
@@ -206,7 +207,7 @@ export default function ProductsPage() {
                     <div className="h-52 bg-white/95 relative p-4 flex items-center justify-center border-b border-white/20">
                       {product.image_url ? (
                         <img 
-                          src={product.image_url.startsWith('http') ? product.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${product.image_url}`} 
+                          src={getImageUrl(product.image_url)} 
                           alt={product.name} 
                           className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105" 
                         />

@@ -58,6 +58,14 @@ async def upload_image(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
         
+    try:
+        frontend_uploads_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "frontend", "public", "uploads"))
+        if os.path.exists(os.path.dirname(frontend_uploads_dir)):
+            os.makedirs(frontend_uploads_dir, exist_ok=True)
+            shutil.copy2(file_path, os.path.join(frontend_uploads_dir, unique_filename))
+    except Exception:
+        pass
+        
     return {"image_url": f"/uploads/{unique_filename}"}
 
 @router.patch("/{product_id}", response_model=ProductResponse)

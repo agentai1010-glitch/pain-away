@@ -4,6 +4,7 @@ import { useStorefrontProducts } from "@/services/storefront";
 import { useCreateCustomerOrder, useConfirmCustomerOrder } from "@/services/customer-order";
 import { authService } from "@/services/auth";
 import { ArrowLeft, ShoppingBag, ShieldCheck, Loader2, AlertTriangle, Minus, Plus } from "lucide-react";
+import { getImageUrl } from "@/lib/utils";
 
 export default function CheckoutPage() {
   const { id } = useParams<{ id: string }>();
@@ -201,7 +202,7 @@ export default function CheckoutPage() {
                 <div className="w-20 h-20 bg-white rounded-xl border flex items-center justify-center shrink-0">
                   {product.image_url ? (
                     <img 
-                      src={product.image_url.startsWith('http') ? product.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${product.image_url}`} 
+                      src={getImageUrl(product.image_url)} 
                       alt={product.name} 
                       className="w-16 h-16 object-contain mix-blend-multiply" 
                     />

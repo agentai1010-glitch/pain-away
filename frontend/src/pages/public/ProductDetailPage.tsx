@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useStorefrontProducts } from "@/services/storefront";
 import { ShoppingBag, CheckCircle2, XCircle, AlertTriangle, ShieldCheck, Phone, HelpCircle } from "lucide-react";
+import { getImageUrl } from "@/lib/utils";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -65,7 +66,7 @@ export default function ProductDetailPage() {
             <div className="bg-white/95 p-12 flex items-center justify-center relative min-h-[400px] border-b md:border-b-0 md:border-r border-white/20">
               {product.image_url ? (
                 <img 
-                  src={product.image_url.startsWith('http') ? product.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${product.image_url}`} 
+                  src={getImageUrl(product.image_url)} 
                   alt={product.name} 
                   className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" 
                 />
@@ -226,7 +227,7 @@ export default function ProductDetailPage() {
                   <div className="h-44 bg-white/95 relative p-4 flex items-center justify-center border-b border-white/20">
                     {related.image_url ? (
                       <img 
-                        src={related.image_url.startsWith('http') ? related.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${related.image_url}`} 
+                        src={getImageUrl(related.image_url)} 
                         alt={related.name} 
                         className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105" 
                       />

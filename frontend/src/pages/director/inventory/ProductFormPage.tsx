@@ -4,6 +4,7 @@ import { useCreateProduct, useUpdateProduct, useProduct, useUploadProductImage }
 import { useCategories } from "@/services/category";
 import { useBrands } from "@/services/brand";
 import { ArrowLeft, Loader2, Save, Upload, Image as ImageIcon, X } from "lucide-react";
+import { getImageUrl } from "@/lib/utils";
 import DirectorLayout from "../DirectorLayout";
 import { Link } from "react-router-dom";
 
@@ -109,7 +110,7 @@ export function ProductFormPage() {
               {formData.image_url ? (
                 <div className="relative w-32 h-32 rounded-xl border bg-slate-50 overflow-hidden shrink-0 group">
                   <img 
-                    src={formData.image_url.startsWith('http') ? formData.image_url : `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? "" : "http://localhost:8000")}${formData.image_url}`} 
+                    src={getImageUrl(formData.image_url)} 
                     alt="Product preview" 
                     className="w-full h-full object-cover mix-blend-multiply" 
                   />
