@@ -56,13 +56,16 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="py-20 flex justify-center items-center px-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight text-center mb-2">Patient Portal</h1>
-        <p className="text-slate-500 text-center mb-8">Access your appointment history and records.</p>
+    <div className="w-full min-h-screen font-sans pb-24 pt-28 md:pt-36 px-4 md:px-12 lg:px-24 bg-cover bg-center bg-no-repeat bg-fixed relative flex justify-center items-start" style={{ backgroundImage: "url('/images/products-bg.png')" }}>
+      {/* Dark overlay to ensure readability while showing word cloud */}
+      <div className="absolute inset-0 bg-blue-950/40 backdrop-blur-[2px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-md w-full bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/20 text-white mt-8">
+        <h1 className="text-3xl font-extrabold text-white tracking-tight text-center mb-2 drop-shadow-sm">Patient Portal</h1>
+        <p className="text-slate-200 text-center mb-8">Access your appointment history and records.</p>
         
         {error && (
-          <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl text-sm border border-red-100">
+          <div className="mb-6 p-4 bg-red-500/80 backdrop-blur-md text-white rounded-xl text-sm border border-red-400/30 shadow-md">
             {error}
           </div>
         )}
@@ -70,20 +73,20 @@ export default function SignInPage() {
         {step === "phone" ? (
           <form onSubmit={handleSendOtp} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Mobile Number</label>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Mobile Number</label>
               <input
                 type="tel"
                 value={mobileNumber}
                 onChange={(e) => setMobileNumber(e.target.value)}
                 placeholder="+91 9876543210"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-lg"
+                className="w-full px-4 py-3.5 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/15 transition-all text-lg text-white placeholder:text-slate-300 shadow-inner"
                 autoFocus
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg shadow-blue-500/30 disabled:opacity-50"
+              className="w-full py-4 bg-blue-600/90 hover:bg-blue-500 text-white rounded-xl font-bold text-lg transition-all shadow-xl shadow-blue-500/30 border border-blue-400/30 disabled:opacity-50"
             >
               {loading ? "Sending..." : "Send OTP"}
             </button>
@@ -91,22 +94,22 @@ export default function SignInPage() {
         ) : (
           <form onSubmit={handleVerifyOtp} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Enter OTP</label>
+              <label className="block text-sm font-semibold text-slate-200 mb-2">Enter OTP</label>
               <input
                 type="text"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="123456"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-lg text-center tracking-[0.5em] font-mono"
+                className="w-full px-4 py-3.5 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/15 transition-all text-lg text-center tracking-[0.5em] font-mono text-white placeholder:text-slate-400 shadow-inner"
                 autoFocus
                 maxLength={6}
               />
-              <p className="text-xs text-slate-400 mt-2 text-center">For testing, use 123456</p>
+              <p className="text-xs text-blue-300 mt-2 text-center">For testing, use 123456</p>
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg shadow-blue-500/30 disabled:opacity-50"
+              className="w-full py-4 bg-blue-600/90 hover:bg-blue-500 text-white rounded-xl font-bold text-lg transition-all shadow-xl shadow-blue-500/30 border border-blue-400/30 disabled:opacity-50"
             >
               {loading ? "Verifying..." : "Verify & Sign In"}
             </button>
@@ -117,7 +120,7 @@ export default function SignInPage() {
                 setOtp("");
                 setError(null);
               }}
-              className="w-full py-4 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl font-semibold transition-all"
+              className="w-full py-4 bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white rounded-xl font-semibold transition-all border border-white/15 shadow-md"
             >
               Change Mobile Number
             </button>
