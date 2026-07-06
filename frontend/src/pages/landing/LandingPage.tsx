@@ -164,26 +164,30 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ SECTION 2: SERVICES ═══ */}
-      <section id="services" className="py-20 md:py-28" style={{ background: "var(--pa-blue-tint)" }}>
-        <div className="w-full px-4 md:px-8 lg:px-16 max-w-[1920px] mx-auto">
+      <section id="services" className="py-20 md:py-28 bg-cover bg-center bg-no-repeat bg-fixed relative overflow-hidden" style={{ backgroundImage: "url('/images/products-bg.png')" }}>
+        {/* Dark overlay with seamless top shadow transition from Section 1 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0f1b5e] via-blue-950/60 to-blue-950/70 backdrop-blur-[2px] pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0f1b5e] via-[#0f1b5e]/80 to-transparent pointer-events-none z-10" />
+
+        <div className="w-full px-4 md:px-8 lg:px-16 max-w-[1920px] mx-auto relative z-20">
           <div className="text-center mb-16 reveal">
             <span className="section-label">
               Our Services
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mt-4 tracking-tight" style={{ color: "var(--pa-navy)" }}>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mt-4 tracking-tight text-white drop-shadow-sm">
               Care Tailored For Your{" "}
-              <span style={{ color: "var(--pa-blue-bright)" }}>Recovery</span>
+              <span className="text-blue-300">Recovery</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6">
             {services.map((svc, i) => (
-              <div key={svc.title} className={`service-card reveal reveal-delay-${i + 1}`}>
-                <div className="service-card-icon">
+              <div key={svc.title} className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 md:p-8 text-center transition-all duration-400 hover:-translate-y-2 hover:bg-white/15 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-300/40 reveal reveal-delay-${i + 1}`}>
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-500/20 border border-blue-300/30 flex items-center justify-center text-blue-300 shadow-inner transition-transform duration-300 hover:scale-110">
                   {svc.icon}
                 </div>
-                <h3 className="text-sm md:text-base font-bold mb-2" style={{ color: "var(--pa-navy)" }}>{svc.title}</h3>
-                <p className="text-xs md:text-sm leading-relaxed" style={{ color: "var(--pa-gray-500)" }}>{svc.desc}</p>
+                <h3 className="text-sm md:text-base font-bold mb-3 text-white tracking-wide">{svc.title}</h3>
+                <p className="text-xs md:text-sm leading-relaxed text-slate-200">{svc.desc}</p>
               </div>
             ))}
           </div>
@@ -191,8 +195,7 @@ export default function LandingPage() {
           <div className="text-center mt-12 reveal">
             <a
               href="#services"
-              className="inline-flex items-center gap-2 font-semibold text-sm tracking-wide transition-all hover:gap-3"
-              style={{ color: "var(--pa-blue-bright)" }}
+              className="inline-flex items-center gap-2 font-bold text-sm md:text-base tracking-wide transition-all hover:gap-3 text-blue-300 hover:text-white px-8 py-3.5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md shadow-lg hover:bg-white/20"
             >
               View All Services <ArrowRight />
             </a>
@@ -201,89 +204,120 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ SECTION 3: TREATMENT EXPERIENCE ═══ */}
-      <section id="treatment" className="w-full bg-[#002b84]">
-        <img
-          src="/images/section3-new-bg.jpg"
-          alt="Treatment sessions at Pain Away clinic"
-          loading="lazy"
-          className="w-full h-auto block"
-        />
+      <section id="treatment" className="py-20 md:py-28 bg-cover bg-center bg-no-repeat bg-fixed relative" style={{ backgroundImage: "url('/images/products-bg.png')" }}>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-blue-950/70 backdrop-blur-[2px] pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 p-8 md:p-14 shadow-2xl">
+            <div className="text-center mb-10 reveal">
+              <span className="section-label">
+                World-Class Care
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mt-4 tracking-tight drop-shadow-sm">
+                The Pain Away <span className="text-blue-300">Experience</span>
+              </h2>
+              <p className="text-slate-200 mt-4 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                State-of-the-art rehabilitation and personalized therapy sessions designed for rapid, lasting recovery in a relaxing, modern environment.
+              </p>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl bg-black/30 reveal reveal-delay-1">
+              <img
+                src="/images/section3-new-bg.jpg"
+                alt="Treatment sessions at Pain Away clinic"
+                loading="lazy"
+                className="w-full h-auto block object-cover max-h-[600px] mx-auto transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ═══ SECTION 4: VISIT US ═══ */}
-      <section id="visit" className="py-20 md:py-28" style={{ background: "var(--pa-blue-tint)" }}>
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="visit" className="py-20 md:py-28 bg-cover bg-center bg-no-repeat bg-fixed relative" style={{ backgroundImage: "url('/images/products-bg.png')" }}>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-blue-950/70 backdrop-blur-[2px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16 reveal">
             <span className="section-label">
               Visit Us
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mt-4 tracking-tight" style={{ color: "var(--pa-navy)" }}>
-              Come Visit Our Clinic
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mt-4 tracking-tight text-white drop-shadow-sm">
+              Come Visit Our <span className="text-blue-300">Clinic</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {/* Timings */}
-            <div className="visit-card reveal reveal-delay-1">
-              <div className="visit-card-icon">
-                <ClockIcon />
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-center text-white shadow-xl transition-all duration-400 hover:-translate-y-2 hover:bg-white/15 hover:shadow-2xl hover:border-blue-300/40 flex flex-col justify-between reveal reveal-delay-1">
+              <div>
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-500/20 border border-blue-300/30 flex items-center justify-center text-blue-300 shadow-inner">
+                  <ClockIcon />
+                </div>
+                <h3 className="font-bold text-xl mb-3 text-white">Timings</h3>
+                <p className="text-lg font-bold text-blue-300">12:00 PM – 7:00 PM</p>
               </div>
-              <h3 className="font-bold text-lg mb-3" style={{ color: "var(--pa-navy)" }}>Timings</h3>
-              <p className="text-base font-semibold" style={{ color: "var(--pa-blue-bright)" }}>12:00 PM – 7:00 PM</p>
-              <p className="text-sm mt-1" style={{ color: "var(--pa-gray-500)" }}>Wednesday Off</p>
+              <p className="text-sm mt-3 text-slate-300 font-medium">Wednesday Off</p>
             </div>
 
             {/* Appointment Booking */}
-            <div className="visit-card reveal reveal-delay-2">
-              <div className="visit-card-icon">
-                <PhoneIcon />
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-center text-white shadow-xl transition-all duration-400 hover:-translate-y-2 hover:bg-white/15 hover:shadow-2xl hover:border-blue-300/40 flex flex-col justify-between reveal reveal-delay-2">
+              <div>
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-500/20 border border-blue-300/30 flex items-center justify-center text-blue-300 shadow-inner">
+                  <PhoneIcon />
+                </div>
+                <h3 className="font-bold text-xl mb-3 text-white">Appointment Booking</h3>
               </div>
-              <h3 className="font-bold text-lg mb-3" style={{ color: "var(--pa-navy)" }}>Appointment Booking</h3>
               <a
                 href="tel:9096272792"
-                className="text-xl font-bold transition-colors hover:underline"
-                style={{ color: "var(--pa-blue-bright)" }}
+                className="text-2xl font-extrabold text-blue-300 transition-colors hover:text-white mt-4 block"
               >
                 9096272792
               </a>
             </div>
 
             {/* Address */}
-            <div className="visit-card reveal reveal-delay-3">
-              <div className="visit-card-icon">
-                <LocationIcon />
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-center text-white shadow-xl transition-all duration-400 hover:-translate-y-2 hover:bg-white/15 hover:shadow-2xl hover:border-blue-300/40 flex flex-col justify-between reveal reveal-delay-3">
+              <div>
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-500/20 border border-blue-300/30 flex items-center justify-center text-blue-300 shadow-inner">
+                  <LocationIcon />
+                </div>
+                <h3 className="font-bold text-xl mb-3 text-white">Our Location</h3>
+                <p className="text-sm leading-relaxed text-slate-200">
+                  Sr No 15/7 Bhuleshwar Hos. Society,
+                  <br />Pune Satara Road, K.K. Market,
+                  <br />Near Lilly's Garden Hotel,
+                  <br />Balaji Nagar, Dhankawadi,
+                  <br />Pune, Maharashtra 411043
+                </p>
               </div>
-              <h3 className="font-bold text-lg mb-3" style={{ color: "var(--pa-navy)" }}>Our Location</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--pa-gray-500)" }}>
-                Sr No 15/7 Bhuleshwar Hos. Society,
-                <br />Pune Satara Road, K.K. Market,
-                <br />Near Lilly's Garden Hotel,
-                <br />Balaji Nagar, Dhankawadi,
-                <br />Pune, Maharashtra 411043
-              </p>
             </div>
 
             {/* Google Map */}
-            <div className="visit-card reveal reveal-delay-4">
-              <div className="visit-card-icon">
-                <MapIcon />
-              </div>
-              <h3 className="font-bold text-lg mb-3" style={{ color: "var(--pa-navy)" }}>Google Map Location</h3>
-              <div className="map-container mb-4">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.1!2d73.8567!3d18.4655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2eaf7e4cf5e49%3A0x7e5b7e4a4c0e7a0!2sPain+Away+Physiotherapy!5e0!3m2!1sen!2sin!4v1"
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Pain Away Clinic Location"
-                ></iframe>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-center text-white shadow-xl transition-all duration-400 hover:-translate-y-2 hover:bg-white/15 hover:shadow-2xl hover:border-blue-300/40 flex flex-col justify-between reveal reveal-delay-4">
+              <div>
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-blue-500/20 border border-blue-300/30 flex items-center justify-center text-blue-300 shadow-inner">
+                  <MapIcon />
+                </div>
+                <h3 className="font-bold text-xl mb-3 text-white">Google Map Location</h3>
+                <div className="map-container mb-4 rounded-xl overflow-hidden border border-white/20 shadow-md">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.1!2d73.8567!3d18.4655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2eaf7e4cf5e49%3A0x7e5b7e4a4c0e7a0!2sPain+Away+Physiotherapy!5e0!3m2!1sen!2sin!4v1"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Pain Away Clinic Location"
+                    className="w-full h-36 border-0"
+                  ></iframe>
+                </div>
               </div>
               <a
                 href="https://maps.app.goo.gl/painaway"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:gap-2.5"
-                style={{ color: "var(--pa-blue-bright)" }}
+                className="inline-flex items-center justify-center gap-2 text-sm font-bold transition-all hover:gap-3 text-blue-300 hover:text-white py-2 px-4 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md mt-2"
               >
                 View on Google Maps
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
