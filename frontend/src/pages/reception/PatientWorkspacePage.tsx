@@ -284,6 +284,14 @@ export function PatientWorkspacePage() {
                         }`}>
                           {apt.status}
                         </span>
+                        {apt.status === 'CANCELLED' && apt.eligibility_id && (
+                          <button
+                            onClick={() => setRebookingLink(`${window.location.origin}/rebook/${apt.eligibility_id}`)}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 text-xs font-semibold rounded-lg transition ml-1"
+                          >
+                            Get Link
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}

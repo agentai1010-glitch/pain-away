@@ -34,6 +34,7 @@ export interface PatientAppointmentHistoryItem {
   status: string;
   receipt_document_id: string | null;
   final_bill_document_id: string | null;
+  eligibility_id?: string | null;
 }
 
 export interface PatientWorkspaceResponse {

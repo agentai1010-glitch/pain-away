@@ -51,6 +51,7 @@ class PatientAppointmentHistoryItem(BaseModel):
     status: str
     receipt_document_id: str | None = None
     final_bill_document_id: str | None = None
+    eligibility_id: str | None = None
 
 class PatientWorkspaceResponse(BaseModel):
     patient_id: str

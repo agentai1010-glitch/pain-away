@@ -172,6 +172,15 @@ class ReceptionService:
                 if f_id:
                     final_bill_doc_id = str(f_id)
 
+            eligibility_id = None
+            if apt.status.value == "CANCELLED":
+                from app.scheduling.models import RebookingEligibilityModel
+                stmt_elig = select(RebookingEligibilityModel.id).where(RebookingEligibilityModel.appointment_id == apt.id)
+                res_elig = await self.session.execute(stmt_elig)
+                e_id = res_elig.scalar()
+                if e_id:
+                    eligibility_id = str(e_id)
+
             item = PatientAppointmentHistoryItem(
                 appointment_id=str(apt.id),
                 date=str(apt.date),
@@ -179,7 +188,8 @@ class ReceptionService:
                 service_name=catalog_item.name if catalog_item else "Unknown",
                 status=apt.status.value,
                 receipt_document_id=receipt_doc_id,
-                final_bill_document_id=final_bill_doc_id
+                final_bill_document_id=final_bill_doc_id,
+                eligibility_id=eligibility_id
             )
             history_items.append(item)
             
