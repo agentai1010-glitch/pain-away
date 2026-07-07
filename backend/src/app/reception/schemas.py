@@ -32,6 +32,7 @@ class QueueItemResponse(BaseModel):
     service_name: str
     slot_time: str
     status: str
+    gender: str | None = None
 
 class ScheduleResponse(BaseModel):
     date: str
@@ -58,6 +59,7 @@ class PatientWorkspaceResponse(BaseModel):
     patient_name: str
     mobile_number: str
     basic_address: str
+    gender: str | None = None
     active_appointment: PatientAppointmentHistoryItem | None
     appointment_history: list[PatientAppointmentHistoryItem]
 

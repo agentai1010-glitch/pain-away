@@ -19,6 +19,7 @@ export interface QueueItemResponse {
   service_name: string;
   slot_time: string;
   status: string;
+  gender?: string | null;
 }
 
 export interface ScheduleResponse {
@@ -42,6 +43,7 @@ export interface PatientWorkspaceResponse {
   patient_name: string;
   mobile_number: string;
   basic_address: string;
+  gender?: string | null;
   active_appointment: PatientAppointmentHistoryItem | null;
   appointment_history: PatientAppointmentHistoryItem[];
 }

@@ -66,6 +66,15 @@ export function PatientWorkspacePage() {
             <div className="space-y-4 flex-1">
               <div className="flex items-center gap-3 text-slate-700">
                 <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center shrink-0 text-slate-500">
+                  <User className="w-4 h-4" />
+                </div>
+                <div className="text-sm">
+                  <p className="font-semibold text-slate-900 capitalize">{data.gender || "Not Specified"}</p>
+                  <p className="text-slate-500 text-xs">Gender</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 text-slate-700">
+                <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center shrink-0 text-slate-500">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div className="text-sm">

@@ -17,6 +17,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 SECRET_KEY = "SUPER_SECRET_RECEPTION_KEY"
 ALGORITHM = "HS256"
 
+def get_val(val):
+    if val is None:
+        return None
+    return getattr(val, 'value', str(val))
+
 class ReceptionService:
 
     def __init__(self, session: AsyncSession):
@@ -60,6 +65,12 @@ class ReceptionService:
             patient = await self.patient_service.get_patient_by_id(apt.patient_id)
             catalog_item = await self.catalog_service.get_catalog_item(apt.catalog_item_id)
             
+            gender_val = None
+            if hasattr(apt, 'patient_gender') and apt.patient_gender:
+                gender_val = get_val(apt.patient_gender)
+            elif patient and hasattr(patient, 'gender') and patient.gender:
+                gender_val = get_val(patient.gender)
+            
             queue_items.append(
                 QueueItemResponse(
                     appointment_id=str(apt.id),
@@ -67,7 +78,8 @@ class ReceptionService:
                     patient_name=f"{patient.first_name} {patient.last_name}" if patient else "Unknown",
                     service_name=catalog_item.name if catalog_item else "Unknown",
                     slot_time=apt.start_time.strftime("%H:%M"),
-                    status=apt.status.value
+                    status=get_val(apt.status),
+                    gender=gender_val
                 )
             )
             
@@ -89,7 +101,7 @@ class ReceptionService:
                     patient_id=str(p.id),
                     patient_name=f"{p.first_name} {p.last_name}",
                     mobile_number=p.mobile_number,
-                    latest_appointment_status=latest_apt.status.value if latest_apt else None
+                    latest_appointment_status=get_val(latest_apt.status) if latest_apt else None
                 )
             )
             
@@ -133,7 +145,7 @@ class ReceptionService:
                     date=str(apt.date),
                     slot_time=apt.start_time.strftime("%H:%M"),
                     service_name=catalog_item.name if catalog_item else "Unknown",
-                    status=apt.status.value
+                    status=get_val(apt.status)
                 )
             )
             
@@ -165,7 +177,7 @@ class ReceptionService:
                     receipt_doc_id = str(r_id)
                     
             final_bill_doc_id = None
-            if apt.status.value == "COMPLETED":
+            if get_val(apt.status) == "COMPLETED":
                 stmt_fb = select(FinalBillModel.document_id).where(FinalBillModel.appointment_id == apt.id)
                 res2 = await self.session.execute(stmt_fb)
                 f_id = res2.scalar()
@@ -173,7 +185,7 @@ class ReceptionService:
                     final_bill_doc_id = str(f_id)
 
             eligibility_id = None
-            if apt.status.value == "CANCELLED":
+            if get_val(apt.status) == "CANCELLED":
                 from app.scheduling.models import RebookingEligibilityModel
                 stmt_elig = select(RebookingEligibilityModel.id).where(RebookingEligibilityModel.appointment_id == apt.id)
                 res_elig = await self.session.execute(stmt_elig)
@@ -186,7 +198,7 @@ class ReceptionService:
                 date=str(apt.date),
                 slot_time=apt.start_time.strftime("%H:%M"),
                 service_name=catalog_item.name if catalog_item else "Unknown",
-                status=apt.status.value,
+                status=get_val(apt.status),
                 receipt_document_id=receipt_doc_id,
                 final_bill_document_id=final_bill_doc_id,
                 eligibility_id=eligibility_id
@@ -196,14 +208,19 @@ class ReceptionService:
             # Identify active appointment (first BOOKED appointment chronologically or just any active one)
             # Since appointments is sorted by date desc, start_time desc, we just take any that is BOOKED.
             # But usually active is in the future.
-            if apt.status.value == "BOOKED" and active_apt_item is None:
+            if get_val(apt.status) == "BOOKED" and active_apt_item is None:
                 active_apt_item = item
+                
+        gender_val = None
+        if hasattr(patient, 'gender') and patient.gender:
+            gender_val = get_val(patient.gender)
                 
         return PatientWorkspaceResponse(
             patient_id=str(patient.id),
             patient_name=f"{patient.first_name} {patient.last_name}",
             mobile_number=patient.mobile_number,
             basic_address=patient.basic_address,
+            gender=gender_val,
             active_appointment=active_apt_item,
             appointment_history=history_items
         )
@@ -233,7 +250,7 @@ class ReceptionService:
         if not apt:
             raise HTTPException(status_code=404, detail="Appointment not found")
             
-        if apt.status.value == "COMPLETED":
+        if get_val(apt.status) == "COMPLETED":
             raise HTTPException(status_code=400, detail="Appointment is already completed.")
 
         patient = await self.patient_service.get_patient_by_id(apt.patient_id)

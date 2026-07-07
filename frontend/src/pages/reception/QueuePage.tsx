@@ -78,6 +78,7 @@ export function QueuePage() {
                       <tr>
                         <th className="px-6 py-4">Slot Time</th>
                         <th className="px-6 py-4">Patient Name</th>
+                        <th className="px-6 py-4">Gender</th>
                         <th className="px-6 py-4">Service</th>
                         <th className="px-6 py-4">Status</th>
                       </tr>
@@ -102,6 +103,19 @@ export function QueuePage() {
                               </div>
                               {apt.patient_name}
                             </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            {apt.gender ? (
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                                apt.gender.toLowerCase() === 'male' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
+                                apt.gender.toLowerCase() === 'female' ? 'bg-purple-50 text-purple-700 border border-purple-200' :
+                                'bg-slate-100 text-slate-700'
+                              }`}>
+                                {apt.gender.toLowerCase() === 'male' ? '👨 Male' : apt.gender.toLowerCase() === 'female' ? '👩 Female' : apt.gender}
+                              </span>
+                            ) : (
+                              <span className="text-slate-400">-</span>
+                            )}
                           </td>
                           <td className="px-6 py-4 text-slate-600">
                             <div className="flex items-center gap-2">

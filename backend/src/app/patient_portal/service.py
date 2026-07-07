@@ -85,7 +85,7 @@ class PatientPortalService:
             res = await self.db.execute(stmt)
             for appt in res.scalars().all():
                 activities.append(TimelineActivity(
-                    title=f"Appointment {appt.status.value.title()}",
+                    title=f"Appointment {getattr(appt.status, 'value', str(appt.status)).title()}",
                     description=f"Scheduled for {appt.date} at {appt.start_time}",
                     timestamp=appt.created_at.isoformat() if appt.created_at else "",
                     activity_type="APPOINTMENT"
@@ -108,7 +108,7 @@ class PatientPortalService:
         res = await self.db.execute(stmt)
         for order in res.scalars().all():
             activities.append(TimelineActivity(
-                title=f"Product Order {order.status.value.title()}",
+                title=f"Product Order {getattr(order.status, 'value', str(order.status)).title()}",
                 description=f"Order Number: {order.order_number}",
                 timestamp=order.created_at.isoformat() if order.created_at else "",
                 activity_type="ORDER"
@@ -178,7 +178,7 @@ class PatientPortalService:
                 service_name=service_name,
                 date=str(appt.date),
                 time=str(appt.start_time),
-                status=appt.status.value,
+                status=getattr(appt.status, 'value', str(appt.status)),
                 booking_date=appt.created_at.isoformat() if appt.created_at else "",
                 advance_paid=advance_paid,
                 remaining_amount=remaining_amount,
@@ -221,7 +221,7 @@ class PatientPortalService:
                 id=str(order.id),
                 order_number=order.order_number,
                 order_date=str(order.order_date),
-                status=order.status.value,
+                status=getattr(order.status, 'value', str(order.status)),
                 grand_total=float(order.grand_total),
                 items=items_res
             ))
@@ -274,7 +274,7 @@ class PatientPortalService:
                     
             results.append(PatientDocumentResponse(
                 id=str(doc.id),
-                document_type=doc.document_type.value,
+                document_type=getattr(doc.document_type, 'value', str(doc.document_type)),
                 document_number=doc.document_number,
                 generated_date=doc.generated_date,
                 generated_time=doc.generated_time,

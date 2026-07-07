@@ -135,7 +135,7 @@ class PublicBookingOrchestrator:
             catalog_item_name=context.catalog_item_name,
             date=context.date,
             start_time=context.start_time,
-            status=appointment.status.value
+            status=getattr(appointment.status, 'value', str(appointment.status))
         )
 
     async def check_patient_status(self, mobile_number: str) -> PatientBookingStatusResponse:
@@ -161,7 +161,7 @@ class PublicBookingOrchestrator:
                 catalog_item_name=catalog_item.name if catalog_item else "Unknown",
                 date=str(active_apt.date),
                 start_time=active_apt.start_time.strftime("%H:%M"),
-                status=active_apt.status.value
+                status=getattr(active_apt.status, 'value', str(active_apt.status))
             )
         )
 
@@ -290,6 +290,6 @@ class PublicBookingOrchestrator:
             catalog_item_name=catalog_item.name if catalog_item else "Unknown",
             date=date_str,
             start_time=start_time_str,
-            status=new_apt.status.value
+            status=getattr(new_apt.status, 'value', str(new_apt.status))
         )
 
