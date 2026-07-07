@@ -22,20 +22,32 @@ class SchedulingService:
         
         # 0. Fetch configured active holidays
         active_holidays = await self.repository.get_active_holidays()
-        holiday_dates = [h.date for h in active_holidays]
+        full_holiday_dates = [h.date for h in active_holidays if getattr(h, "holiday_type", "FULL") == "FULL"]
+        partial_holidays_map = {
+            h.date: [s.strip() for s in (getattr(h, "disabled_slots", "") or "").split(",") if s.strip()]
+            for h in active_holidays if getattr(h, "holiday_type", "FULL") == "PARTIAL"
+        }
         
-        # 1. Determine valid dates (excluding Wednesdays and Holidays)
-        valid_dates = get_available_booking_dates(now, holidays=holiday_dates)
+        # 1. Determine valid dates (excluding Wednesdays and FULL Holidays)
+        valid_dates = get_available_booking_dates(now, holidays=full_holiday_dates)
         if not valid_dates:
             return []
             
         # 2. Fetch existing bookings
         appointments = await self.repository.get_booked_appointments_for_dates(valid_dates)
         
-        # Group bookings by date for easy lookup
-        booked_slots_by_date: dict[datetime.date, set[datetime.time]] = {d: set() for d in valid_dates}
+        # Group bookings by date and slot start_time for gender count
+        bookings_map: dict[datetime.date, dict[datetime.time, dict[str, int]]] = {d: {} for d in valid_dates}
         for apt in appointments:
-            booked_slots_by_date[apt.date].add(apt.start_time)
+            if apt.status == AppointmentStatus.CANCELLED:
+                continue
+            d_map = bookings_map.setdefault(apt.date, {})
+            s_map = d_map.setdefault(apt.start_time, {"Male": 0, "Female": 0})
+            gender = getattr(apt, "patient_gender", "Male") or "Male"
+            if gender in s_map:
+                s_map[gender] += 1
+            else:
+                s_map["Male"] += 1
             
         # 3. Generate slot availability
         all_slots = get_all_slots_for_date()
@@ -47,19 +59,38 @@ class SchedulingService:
         for d in valid_dates:
             slots_response = []
             is_today = (d == now.date())
+            disabled_times_for_date = partial_holidays_map.get(d, [])
             
             for start, end in all_slots:
-                # Slot is available if it's not booked AND (it's not today OR cutoff not reached)
-                is_available = start not in booked_slots_by_date[d]
-                
+                start_str = start.strftime("%H:%M")
+                is_disabled = False
                 if is_today and cutoff_reached:
+                    is_disabled = True
+                if start_str in disabled_times_for_date:
+                    is_disabled = True
+                
+                s_map = bookings_map.get(d, {}).get(start, {"Male": 0, "Female": 0})
+                male_booked = s_map.get("Male", 0)
+                female_booked = s_map.get("Female", 0)
+                
+                male_cap = max(0, 3 - male_booked)
+                female_cap = max(0, 3 - female_booked)
+                total_cap = male_cap + female_cap
+                
+                if is_disabled:
                     is_available = False
+                else:
+                    is_available = total_cap > 0
                     
                 slots_response.append(
                     SlotResponse(
                         start_time=start,
                         end_time=end,
-                        is_available=is_available
+                        is_available=is_available,
+                        male_capacity=male_cap,
+                        female_capacity=female_cap,
+                        total_capacity=total_cap,
+                        is_disabled=is_disabled
                     )
                 )
             
@@ -73,7 +104,8 @@ class SchedulingService:
         catalog_item_id, 
         date_obj, 
         start_time_obj, 
-        receipt_number
+        receipt_number,
+        patient_gender: str = "Male"
     ) -> AppointmentModel:
         import uuid
         
@@ -90,7 +122,8 @@ class SchedulingService:
             start_time=start_time_obj,
             end_time=end_time_obj,
             receipt_number=receipt_number,
-            status=AppointmentStatus.BOOKED
+            status=AppointmentStatus.BOOKED,
+            patient_gender=patient_gender
         )
         return await self.repository.create_appointment(apt)
 
@@ -163,7 +196,8 @@ class SchedulingService:
             catalog_item_id=original_apt.catalog_item_id,
             date_obj=date_obj,
             start_time_obj=start_time_obj,
-            receipt_number=new_receipt_number
+            receipt_number=new_receipt_number,
+            patient_gender=getattr(original_apt, "patient_gender", "Male") or "Male"
         )
 
         # Establish lineage
@@ -206,11 +240,14 @@ class SchedulingService:
         if not validation.is_valid:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=validation.message)
             
+        disabled_slots_str = ",".join(data.disabled_slots) if data.disabled_slots else None
         holiday = HolidayModel(
             id=uuid.uuid4(),
             date=data.date,
             reason=data.reason,
-            is_active=True
+            is_active=True,
+            holiday_type=data.holiday_type,
+            disabled_slots=disabled_slots_str
         )
         
         await self.repository.create_holiday(holiday)

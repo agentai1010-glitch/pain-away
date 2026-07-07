@@ -15,3 +15,4 @@ class PatientModel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     mobile_number: Mapped[str] = mapped_column(String(15), nullable=False, unique=True, index=True)
     basic_address: Mapped[str] = mapped_column(String(255), nullable=False)
+    gender: Mapped[str] = mapped_column(String(10), default="Male", nullable=False)

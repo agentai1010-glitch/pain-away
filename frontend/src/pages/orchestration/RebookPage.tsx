@@ -7,7 +7,6 @@ import {
   CheckCircle2, 
   User, 
   CalendarDays,
-  Clock,
   AlertCircle,
   Receipt
 } from "lucide-react";
@@ -131,21 +130,21 @@ export function RebookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-6 flex justify-center items-start">
-      <div className="max-w-2xl w-full space-y-8 animate-fade-in">
+    <div className="min-h-screen bg-slate-50 py-6 sm:py-12 px-4 sm:px-6 flex justify-center items-start">
+      <div className="max-w-2xl w-full space-y-6 sm:space-y-8 animate-fade-in">
         <div className="space-y-2 text-center md:text-left">
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">Rebook Appointment</h1>
-          <p className="text-slate-500">Reschedule your cancelled appointment using your existing advance payment.</p>
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Rebook Appointment</h1>
+          <p className="text-sm sm:text-base text-slate-500">Reschedule your cancelled appointment using your existing advance payment.</p>
         </div>
 
         {/* Original Appointment Summary */}
-        <div className="bg-white border rounded-3xl p-8 shadow-md space-y-6">
-          <h2 className="text-xl font-bold flex items-center gap-2 text-slate-900">
+        <div className="bg-white border rounded-3xl p-5 sm:p-8 shadow-md space-y-6">
+          <h2 className="text-lg sm:text-xl font-bold flex items-center gap-2 text-slate-900">
             <Receipt className="w-5 h-5 text-primary" />
             Original Booking Details
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-2">
             <div className="space-y-1">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Patient Name</span>
               <div className="flex items-center gap-2 text-slate-900 font-semibold">
@@ -170,10 +169,13 @@ export function RebookPage() {
 
         {/* Time Slot Selection */}
         <div className="bg-white border rounded-3xl p-8 shadow-md">
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900">
+          <h2 className="text-xl font-bold mb-2 flex items-center gap-2 text-slate-900">
             <CalendarDays className="w-5 h-5 text-primary" />
             Select New Slot
           </h2>
+          <p className="text-sm text-slate-500 mb-6">
+            Showing available capacity for each hour block.
+          </p>
           
           <div className="space-y-6">
             {loadingSlots ? (
@@ -181,30 +183,64 @@ export function RebookPage() {
             ) : (
               availableDates?.map(day => (
                 <div key={strDate(day.date)} className="space-y-3">
-                  <h3 className="font-semibold text-sm text-slate-500 flex items-center gap-2 border-b pb-2">
-                    <CalendarDays className="w-4 h-4 text-slate-400" />
+                  <h3 className="font-semibold text-sm text-slate-700 flex items-center gap-2 border-b pb-2">
+                    <CalendarDays className="w-4 h-4 text-primary" />
                     {strDate(day.date)}
                   </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {day.slots.map((slot, idx) => {
                       const sTime = slot.start_time.slice(0, 5);
+                      const hour = parseInt(sTime.split(':')[0] || "0");
+                      const ampm1 = hour >= 12 ? 'PM' : 'AM';
+                      const h1 = hour % 12 || 12;
+                      const h2 = (hour + 1) % 12 || 12;
+                      const ampm2 = (hour + 1) >= 12 ? 'PM' : 'AM';
+                      const hourBlock = `${h1}:00 ${ampm1} – ${h2}:00 ${ampm2}`;
+
                       const isSelected = selectedDate === strDate(day.date) && selectedTime === sTime;
+                      const isSelectable = slot.is_available && !slot.is_disabled && ((slot.male_capacity ?? 3) > 0 || (slot.female_capacity ?? 3) > 0);
                       
                       return (
                         <button
                           key={idx}
-                          disabled={!slot.is_available}
+                          disabled={!isSelectable}
                           onClick={() => { setSelectedDate(strDate(day.date)); setSelectedTime(sTime); }}
-                          className={`p-3 rounded-xl text-sm font-semibold transition-all border ${
-                            !slot.is_available 
-                              ? "bg-slate-50 text-slate-300 border-transparent cursor-not-allowed" 
+                          className={`p-3.5 rounded-xl text-left transition-all border flex flex-col justify-between gap-3 ${
+                            !isSelectable
+                              ? "bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed opacity-75"
                               : isSelected
-                                ? "bg-primary text-white border-primary shadow-md scale-[1.02]"
-                                : "bg-white text-slate-700 hover:border-primary/50 hover:bg-slate-50"
+                                ? "bg-primary/10 border-primary shadow-sm ring-2 ring-primary/20 scale-[1.01]"
+                                : "bg-white border-slate-200 hover:border-primary/50 hover:shadow-sm"
                           }`}
                         >
-                          <Clock className="w-3.5 h-3.5 inline mr-1 opacity-70" />
-                          {sTime}
+                          <div className="flex items-center justify-between w-full">
+                            <span className={`font-bold text-sm sm:text-base ${isSelected ? "text-primary" : "text-slate-900"}`}>
+                              {hourBlock}
+                            </span>
+                            {slot.is_disabled ? (
+                              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-700">Closed</span>
+                            ) : !isSelectable ? (
+                              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-slate-200 text-slate-600">Full</span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-green-100 text-green-800">Available</span>
+                            )}
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-2 w-full pt-2 border-t border-dashed border-slate-200">
+                            <div className={`flex items-center justify-between p-1.5 rounded-lg text-xs font-medium ${
+                              ((slot.male_capacity ?? 3) > 0) ? "bg-blue-50 text-blue-700 border border-blue-200" : "bg-red-50 text-red-700 border border-red-200 opacity-60"
+                            }`}>
+                              <span>👨 Male</span>
+                              <span className="font-bold">{slot.male_capacity ?? 3}/3</span>
+                            </div>
+
+                            <div className={`flex items-center justify-between p-1.5 rounded-lg text-xs font-medium ${
+                              ((slot.female_capacity ?? 3) > 0) ? "bg-purple-50 text-purple-700 border border-purple-200" : "bg-red-50 text-red-700 border border-red-200 opacity-60"
+                            }`}>
+                              <span>👩 Female</span>
+                              <span className="font-bold">{slot.female_capacity ?? 3}/3</span>
+                            </div>
+                          </div>
                         </button>
                       );
                     })}

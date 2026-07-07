@@ -257,7 +257,7 @@ export default function LandingPage() {
                   <ClockIcon />
                 </div>
                 <h3 className="font-bold text-xl mb-3 text-white">Timings</h3>
-                <p className="text-lg font-bold text-blue-300">12:00 PM – 7:00 PM</p>
+                <p className="text-lg font-bold text-blue-300">11:00 AM – 5:00 PM<br/><span className="text-xs font-normal text-slate-300">(2:00 PM – 3:00 PM Break)</span></p>
               </div>
               <p className="text-sm mt-3 text-slate-300 font-medium">Wednesday Off</p>
             </div>

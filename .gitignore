@@ -68,3 +68,5 @@ coverage/
 *.log
 *.bak
 *.tmp
+*.db
+backend/src/data/documents/*.txt

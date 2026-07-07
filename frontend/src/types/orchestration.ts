@@ -14,6 +14,7 @@ export interface PatientResponse {
   last_name: string;
   mobile_number: string;
   basic_address: string;
+  gender?: string;
 }
 
 export interface PatientBookingStatusResponse {

@@ -37,10 +37,15 @@ class PublicBookingOrchestrator:
         if not target_date_slots:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Date not available for booking.")
             
-        slot_is_available = any(
-            s.start_time.strftime("%H:%M") == request.start_time and s.is_available 
-            for s in target_date_slots.slots
-        )
+        slot_obj = next((s for s in target_date_slots.slots if s.start_time.strftime("%H:%M") == request.start_time), None)
+        if not slot_obj or not slot_obj.is_available:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Time slot is not available.")
+            
+        patient_gender = getattr(request.patient_data, "gender", "Male") or "Male"
+        if patient_gender == "Male" and getattr(slot_obj, "male_capacity", 3) <= 0:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No Male capacity available for this time slot.")
+        elif patient_gender == "Female" and getattr(slot_obj, "female_capacity", 3) <= 0:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No Female capacity available for this time slot.")
         
         import datetime
         from app.shared.constants import IST
@@ -60,9 +65,6 @@ class PublicBookingOrchestrator:
         else:
             if target_dt.weekday() == 2: # Wednesday
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Clinic is closed on Wednesday.")
-                
-        if not slot_is_available:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Time slot is not available.")
 
         # 3. Resolve existing patient or register a new patient
         patient = await self.patient_service.lookup_patient(request.patient_data.mobile_number)
@@ -117,7 +119,8 @@ class PublicBookingOrchestrator:
             catalog_item_id=context.catalog_item_id,
             date_obj=date_obj,
             start_time_obj=start_time_obj,
-            receipt_number=context.payment.receipt.receipt_number
+            receipt_number=context.payment.receipt.receipt_number,
+            patient_gender=getattr(context.patient, "gender", "Male") or "Male"
         )
         
         # 6. Mark slot as occupied (implicitly done because get_available_slots now sees this appointment)
@@ -227,10 +230,15 @@ class PublicBookingOrchestrator:
         if not target_date_slots:
             raise HTTPException(status_code=400, detail="Date not available for booking.")
             
-        slot_is_available = any(
-            s.start_time.strftime("%H:%M") == start_time_str and s.is_available 
-            for s in target_date_slots.slots
-        )
+        slot_obj = next((s for s in target_date_slots.slots if s.start_time.strftime("%H:%M") == start_time_str), None)
+        if not slot_obj or not slot_obj.is_available:
+            raise HTTPException(status_code=400, detail="Time slot is not available.")
+            
+        patient_gender = getattr(original_apt, "patient_gender", "Male") or "Male"
+        if patient_gender == "Male" and getattr(slot_obj, "male_capacity", 3) <= 0:
+            raise HTTPException(status_code=400, detail="No Male capacity available for this time slot.")
+        elif patient_gender == "Female" and getattr(slot_obj, "female_capacity", 3) <= 0:
+            raise HTTPException(status_code=400, detail="No Female capacity available for this time slot.")
         
         target_dt = datetime.datetime.strptime(date_str, "%Y-%m-%d")
         if target_dt.weekday() == 2: # Wednesday
@@ -241,9 +249,6 @@ class PublicBookingOrchestrator:
             raise HTTPException(status_code=400, detail="Cannot book beyond 3 days.")
         if target_dt.date() == now.date() and now.hour >= 9:
             raise HTTPException(status_code=400, detail="Cannot book today after 9:00 AM.")
-            
-        if not slot_is_available:
-            raise HTTPException(status_code=400, detail="Time slot is not available.")
             
         # Validate patient has no active booking (double booking rule)
         active_apt = await self.scheduling_service.get_active_appointment_for_patient(original_apt.patient_id)

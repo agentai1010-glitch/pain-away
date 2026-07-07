@@ -26,6 +26,7 @@ class AppointmentModel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     receipt_number: Mapped[str] = mapped_column(String(50), nullable=True)
     rebooked_from_id: Mapped[uuid.UUID] = mapped_column(Uuid, nullable=True)
     rebooked_to_id: Mapped[uuid.UUID] = mapped_column(Uuid, nullable=True)
+    patient_gender: Mapped[str | None] = mapped_column(String(10), default="Male", nullable=True)
 
 
 class RebookingEligibilityModel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -46,4 +47,6 @@ class HolidayModel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     date: Mapped[datetime.date] = mapped_column(Date, nullable=False, unique=True, index=True)
     reason: Mapped[str] = mapped_column(String(255), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    holiday_type: Mapped[str] = mapped_column(String(20), default="FULL", nullable=False)
+    disabled_slots: Mapped[str | None] = mapped_column(String(255), nullable=True)
 

@@ -13,10 +13,21 @@ export function HolidayManagementPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     date: "",
-    reason: ""
+    reason: "",
+    holiday_type: "FULL" as "FULL" | "PARTIAL",
+    disabled_slots: [] as string[]
   });
   
   const [validationPreview, setValidationPreview] = useState<{is_valid: boolean; message: string | null} | null>(null);
+
+  const workingHourBlocks = [
+    { label: "11:00 AM – 12:00 PM", time: "11:00" },
+    { label: "12:00 PM – 01:00 PM", time: "12:00" },
+    { label: "01:00 PM – 02:00 PM", time: "13:00" },
+    // 02:00 PM – 03:00 PM is break
+    { label: "03:00 PM – 04:00 PM", time: "15:00" },
+    { label: "04:00 PM – 05:00 PM", time: "16:00" }
+  ];
 
   // Re-validate when date changes
   useEffect(() => {
@@ -33,19 +44,39 @@ export function HolidayManagementPage() {
   const handleOpenModal = () => {
     setFormData({
       date: "",
-      reason: ""
+      reason: "",
+      holiday_type: "FULL",
+      disabled_slots: []
     });
     setValidationPreview(null);
     setIsModalOpen(true);
   };
 
+  const handleToggleSlot = (timeStr: string) => {
+    setFormData(prev => {
+      const exists = prev.disabled_slots.includes(timeStr);
+      return {
+        ...prev,
+        disabled_slots: exists
+          ? prev.disabled_slots.filter(s => s !== timeStr)
+          : [...prev.disabled_slots, timeStr]
+      };
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validationPreview?.is_valid) return;
+    if (formData.holiday_type === "PARTIAL" && formData.disabled_slots.length === 0) {
+      alert("Please select at least one hour block to disable for a partial holiday.");
+      return;
+    }
     
     createMutation.mutate({
       date: formData.date,
-      reason: formData.reason
+      reason: formData.reason,
+      holiday_type: formData.holiday_type,
+      disabled_slots: formData.holiday_type === "PARTIAL" ? formData.disabled_slots : []
     }, {
       onSuccess: () => setIsModalOpen(false)
     });
@@ -66,7 +97,7 @@ export function HolidayManagementPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Holiday Management</h1>
-            <p className="text-slate-500 mt-1">Configure future clinic closure dates.</p>
+            <p className="text-slate-500 mt-1">Configure full or partial clinic closure dates.</p>
           </div>
           <button 
             onClick={handleOpenModal}
@@ -92,7 +123,7 @@ export function HolidayManagementPage() {
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100">
                   <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Reason</th>
+                  <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Type / Reason</th>
                   <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                 </tr>
@@ -103,12 +134,17 @@ export function HolidayManagementPage() {
                     <td className="px-6 py-4 whitespace-nowrap font-semibold text-slate-900">
                       {new Date(holiday.date).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
                     </td>
-                    <td className="px-6 py-4 text-slate-600">
-                      {holiday.reason}
+                    <td className="px-6 py-4">
+                      <div className="font-medium text-slate-900">{holiday.reason}</div>
+                      {holiday.holiday_type === 'PARTIAL' && (
+                        <div className="text-xs text-amber-700 bg-amber-50 inline-block px-2 py-0.5 rounded mt-1 font-semibold border border-amber-200">
+                          Partial Closure: {(holiday.disabled_slots || []).join(', ')}
+                        </div>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold ${holiday.is_active ? 'bg-red-100 text-red-700' : 'bg-slate-200 text-slate-600'}`}>
-                        {holiday.is_active ? 'Closed (Active)' : 'Open (Inactive)'}
+                        {holiday.is_active ? (holiday.holiday_type === 'PARTIAL' ? 'Partial Holiday' : 'Closed (Active)') : 'Open (Inactive)'}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
@@ -160,6 +196,48 @@ export function HolidayManagementPage() {
                   )}
                   <div className="text-sm font-medium">
                     {validateMutation.isPending ? 'Validating scheduling rules...' : validationPreview?.is_valid ? 'This date can be configured as a holiday.' : validationPreview?.message}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Holiday Type</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({...formData, holiday_type: "FULL"})}
+                    className={`py-2.5 px-3 rounded-xl border text-sm font-bold transition-all ${formData.holiday_type === "FULL" ? "bg-primary text-white border-primary shadow-sm" : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"}`}
+                  >
+                    Full Day Closure
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({...formData, holiday_type: "PARTIAL"})}
+                    className={`py-2.5 px-3 rounded-xl border text-sm font-bold transition-all ${formData.holiday_type === "PARTIAL" ? "bg-primary text-white border-primary shadow-sm" : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"}`}
+                  >
+                    Partial Day Closure
+                  </button>
+                </div>
+              </div>
+
+              {formData.holiday_type === "PARTIAL" && (
+                <div className="space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Select Closed Hour Blocks</label>
+                  <div className="space-y-2">
+                    {workingHourBlocks.map(block => {
+                      const isChecked = formData.disabled_slots.includes(block.time);
+                      return (
+                        <label key={block.time} className="flex items-center gap-3 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer hover:border-primary/50 text-sm font-medium">
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={() => handleToggleSlot(block.time)}
+                            className="rounded text-primary focus:ring-primary h-4 w-4"
+                          />
+                          <span>{block.label}</span>
+                        </label>
+                      );
+                    })}
                   </div>
                 </div>
               )}

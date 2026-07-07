@@ -18,12 +18,12 @@ SLOT_TIMES: list[tuple[str, str]] = [
     ("11:00", "12:00"),
     ("12:00", "13:00"),
     ("13:00", "14:00"),
-    # Break
+    # 14:00 to 15:00 is clinic break
     ("15:00", "16:00"),
     ("16:00", "17:00"),
 ]
 
-MAX_APPOINTMENTS_PER_DAY = 5
+MAX_APPOINTMENTS_PER_DAY = 30
 
 # ---------------------------------------------------------------------------
 # Public Booking

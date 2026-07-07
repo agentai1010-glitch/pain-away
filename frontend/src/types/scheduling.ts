@@ -2,6 +2,10 @@ export interface Slot {
   start_time: string;
   end_time: string;
   is_available: boolean;
+  male_capacity?: number;
+  female_capacity?: number;
+  total_capacity?: number;
+  is_disabled?: boolean;
 }
 
 export interface DateAvailability {
@@ -21,11 +25,15 @@ export interface Holiday {
   date: string;
   reason: string;
   is_active: boolean;
+  holiday_type?: 'FULL' | 'PARTIAL';
+  disabled_slots?: string[];
 }
 
 export interface HolidayCreate {
   date: string;
   reason: string;
+  holiday_type?: 'FULL' | 'PARTIAL';
+  disabled_slots?: string[];
 }
 
 export interface HolidayValidationPreview {

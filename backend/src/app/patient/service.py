@@ -38,7 +38,8 @@ class PatientService:
             first_name=data.first_name,
             last_name=data.last_name,
             mobile_number=normalized_mobile,
-            basic_address=data.basic_address
+            basic_address=data.basic_address,
+            gender=getattr(data, "gender", "Male") or "Male"
         )
         
         await self.repository.create_patient(new_patient)
